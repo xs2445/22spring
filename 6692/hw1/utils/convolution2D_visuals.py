@@ -94,7 +94,7 @@ def visualize(image, kernel, dilutions = [0]):
     ax[0, 2].axis('off')
     i = 1
     for dilution in dilutions:
-        diluted_kernel = dilute_kernel(kernel, dilution)
+        diluted_kernel = dilate_kernel(kernel, dilution)
         padded_img = pad_img(image, diluted_kernel)
         conved_img = calc_conv2d(padded_img, diluted_kernel)
         plot_ax(fig, ax, i, 0, padded_img, 'Padded image', 'Dilution: ' + str(dilution), image_type='in')

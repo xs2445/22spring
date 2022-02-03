@@ -24,7 +24,13 @@ def dilate_kernel(kernel, dilation_factor):
     # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
     #####################################################################################
     
-    raise Exception('utils.convolution2D.dilate_kernel() not implemented!') # delete me
+    m ,n = kernel.shape
+    # generate a zero dilated kernel 
+    dilated_kernel = np.zeros(((m-1)*dilation_factor+1, (n-1)*dilation_factor+1))
+    # fill in the original kernel into the dilated kernel
+    for i in range(m):
+        for j in range(n):
+            dilated_kernel[i*dilation_factor,j*dilation_factor] = kernel[i,j]
     
     #####################################################################################
     # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
@@ -50,7 +56,10 @@ def pad_img(image, dilated_kernel):
     # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
     #####################################################################################
     
-    raise Exception('utils.convolution2D.pad_img() not implemented!') # delete me
+    m, n = dilated_kernel.shape
+    pad_m = m//2
+    pad_n = n//2
+    padded_image = np.pad(image, ((pad_m,pad_m),(pad_n,pad_n),(0,0)), mode='constant')
     
     #####################################################################################
     # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
@@ -78,8 +87,31 @@ def calc_conv2d(image, kernel):
     # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
     #####################################################################################
     
-    raise Exception('utils.convolution2D.calc_conv2d() not implemented!') # delete me
+    shape_img = image.shape
+    shape_knl = kernel.shape
+
+    if len(shape_img) == 3:
+        channel = shape_img[2]
+    elif len(shape_img) == 2:
+        channel = 0
+    else:
+        raise("Dimensino of input image should be 2 or 3!")
     
+    output = np.zeros((shape_img[0]-shape_knl[0]+1, shape_img[1]-shape_knl[1]+1))
+
+    
+    for m in range(shape_img[0]-shape_knl[0]+1):
+        for n in range(shape_img[1]-shape_knl[1]+1):
+            if channel:
+                for c in range(channel):
+                    # print(np.sum(image[m:m+shape_knl[0],n:n+shape_knl[1],c] * kernel))
+                    output[m, n] += np.sum(image[m:m+shape_knl[0],n:n+shape_knl[1],c] * kernel)
+            else:
+                output[m, n] = np.sum(image[m:m+shape_knl[0],n:n+shape_knl[1]] * kernel)
+                
+                
+            
+
     #####################################################################################
     # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
     #####################################################################################
