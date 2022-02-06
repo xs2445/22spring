@@ -98,19 +98,21 @@ def calc_conv2d(image, kernel):
         raise("Dimensino of input image should be 2 or 3!")
     
     output = np.zeros((shape_img[0]-shape_knl[0]+1, shape_img[1]-shape_knl[1]+1))
-
+    # reverse the kernel to make the code of convolution simple
+    kernel_reversed = np.zeros_like(kernel)
+    for i in range(shape_knl[0]):
+        for j in range(shape_knl[1]):
+            kernel_reversed[i,j] = kernel[shape_knl[0]-i-1, shape_knl[1]-j-1]
     
+    # The process of correlation. It's convolution because the kernel is reversed.
     for m in range(shape_img[0]-shape_knl[0]+1):
         for n in range(shape_img[1]-shape_knl[1]+1):
             if channel:
                 for c in range(channel):
-                    # print(np.sum(image[m:m+shape_knl[0],n:n+shape_knl[1],c] * kernel))
-                    output[m, n] += np.sum(image[m:m+shape_knl[0],n:n+shape_knl[1],c] * kernel)
+                    output[m, n] += np.sum(image[m:m+shape_knl[0],n:n+shape_knl[1],c] * kernel_reversed)
             else:
-                output[m, n] = np.sum(image[m:m+shape_knl[0],n:n+shape_knl[1]] * kernel)
-                
-                
-            
+                output[m, n] = np.sum(image[m:m+shape_knl[0],n:n+shape_knl[1]] * kernel_reversed)
+
 
     #####################################################################################
     # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
