@@ -61,17 +61,20 @@ def display_faces(query, face_detector, num_images=3):
             break
         if image_name != '.ipynb_checkpoints':
             image = Image.open(os.path.join(DOWNLOADS_PATH, query, image_name))
-            
-            
             img_cropped = face_detector(image)
-            print(image_name, ' analyzed!')
+            print(img_cropped.size())
+            face_list.append(img_cropped.numpy())
+            print(image_name, 'analyzed!')
             image_count += 1
     
-    img_cropped = (img_cropped.numpy().transpose(1,2,0)/255).astype(np.float64)
-    display_image(img_cropped)
-#     print(img_cropped)
-    
-    return img_cropped
+    for faces in face_list:
+        if len(faces.shape) == 3:
+            f = faces.transpose(1,2,0)/255
+            display_image(f)
+        if len(faces.shape) == 4:
+            for i in range(faces.shape[0]):
+                f = faces[i].transpose(1,2,0)/255
+                display_image(f)
 
     #####################################################################################
     # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
