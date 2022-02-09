@@ -51,26 +51,37 @@ def display_faces(query, face_detector, num_images=3):
     #####################################################################################
     # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
     #####################################################################################
-
+    
+    # get the absolute path of images
     image_names = os.listdir(os.path.join(DOWNLOADS_PATH, query))
+    # count images as the condition to end the loop
     image_count = 1
-    face_count = 0
+    # save faces in the list
     face_list = []
+    # for images in the directory
     for image_name in image_names:
         if image_count>num_images:
             break
+        # exclude checkpoints
         if image_name != '.ipynb_checkpoints':
+            # read image
             image = Image.open(os.path.join(DOWNLOADS_PATH, query, image_name))
+            # inference
             img_cropped = face_detector(image)
-            print(img_cropped.size())
-            face_list.append(img_cropped.numpy())
+            # append faces to the list
+            if img_cropped is not None:
+                face_list.append(img_cropped.numpy())
             print(image_name, 'analyzed!')
             image_count += 1
     
+    # diaplay faces
     for faces in face_list:
+        # if only 1 face detected, then shape should be (3,w,h)
         if len(faces.shape) == 3:
+            # reshape and resize for diaplay
             f = faces.transpose(1,2,0)/255
             display_image(f)
+        # if multiple faces detected, then shape should be (n,3,w,h)
         if len(faces.shape) == 4:
             for i in range(faces.shape[0]):
                 f = faces[i].transpose(1,2,0)/255
@@ -102,9 +113,27 @@ def draw_boxes_and_landmarks(frame, boxes, landmarks):
     #####################################################################################
     # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
     #####################################################################################
-
-    raise Exception('utils.display.draw_boxes_and_landmarks() not implemented!') # delete me
-
+    # color of the rectangle (opencv use GBR)
+    color = (0,0,255)
+    thickness = 1
+    radius = 1
+    
+    if len(boxes.shape) == 1:
+        frame = cv2.rectangle(frame, boxes[0:2], boxes[2:4], color, thickness)
+        for j in range(landmarks.shape[0]):
+            frame = cv2.circle(frame, landmarks[j], radius, color, thickness)
+            
+    elif len(boxes.shape) == 2:
+        for i in range(boxes.shape[0]):
+            start = boxes[i,0:2]
+            
+            frame = cv2.rectangle(frame, start, boxes[i,2:4], color, thickness)
+            for j in range(landmarks.shape[1]):
+                frame = cv2.circle(frame, landmarks[i,j], radius, color, thickness)
+    
+    
+    
+    
     #####################################################################################
     # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
     #####################################################################################
@@ -127,8 +156,33 @@ def display_detection_and_keypoints(query, face_detector, num_images=3):
     # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
     #####################################################################################
 
-    raise Exception('utils.display.display_detection_and_keypoints() not implemented!') # delete me
-
+    # get the absolute path of images
+    image_names = os.listdir(os.path.join(DOWNLOADS_PATH, query))
+    # count images as the condition to end the loop
+    image_count = 1
+    # save faces in the list
+    box_list = []
+    mark_list = []
+    # for images in the directory
+    for image_name in image_names:
+        if image_count>num_images:
+            break
+        # exclude checkpoints
+        if image_name != '.ipynb_checkpoints':
+            # read image
+            image = Image.open(os.path.join(DOWNLOADS_PATH, query, image_name))
+            # inference
+            boxes, _, landmarks = face_detector.detect(image, landmarks=True)
+            # append faces to the list
+            if boxes is not None:
+                box_list.append(boxes)
+                mark_list.append(landmarks)
+            print(image_name, 'analyzed!')
+            image = draw_boxes_and_landmarks(image, boxes, landmarks)
+            display_image(image)
+            
+            image_count += 1
+    return box_list, mark_list
     #####################################################################################
     # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
     #####################################################################################
