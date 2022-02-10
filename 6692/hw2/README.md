@@ -49,6 +49,25 @@ sudo docker run -it --rm --runtime nvidia --network host --device /dev/video0 nv
 ```
 
 ### Organization of the repo
+```bash
+tree ./ >> README.md
 ```
+```
+./
+├── JetsonNanoSetup.ipynb
+├── PretrainedDeployment.ipynb
+├── README.md
+├── data
+│   ├── PrincessBride-detected.mp4
+│   └── PrincessBride.mp4
+├── imgs
+│   ├── Screenshot from 2022-02-09 16-31-10.png
+│   ├── Screenshot from 2022-02-09 16-32-54.png
+│   └── Screenshot from 2022-02-09 23-41-48.png
+└── utils
+    ├── display.py
+    ├── install_dependancies.py
+    └── pretrained_deployment.py
 
+3 directories, 11 files
 ```
