@@ -114,24 +114,31 @@ def draw_boxes_and_landmarks(frame, boxes, landmarks):
     # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
     #####################################################################################
     # color of the rectangle (opencv use GBR)
-    color = (0,0,255)
-    thickness = 1
+    color = (0,255,0)
+    thickness = 2
     radius = 1
     
+    frame = np.array(frame)
+    
+    # only one face
     if len(boxes.shape) == 1:
-        frame = cv2.rectangle(frame, boxes[0:2], boxes[2:4], color, thickness)
+        # mark the face
+        x_min, y_min, x_max, y_max = map(int, boxes)
+        frame = cv2.rectangle(frame, (x_min,y_min), (x_max,y_max), color, thickness)
+        # mark the landmarks on that face
         for j in range(landmarks.shape[0]):
             frame = cv2.circle(frame, landmarks[j], radius, color, thickness)
-            
+    
+    # multiple faces
     elif len(boxes.shape) == 2:
+        # for each face
         for i in range(boxes.shape[0]):
-            start = boxes[i,0:2]
-            
-            frame = cv2.rectangle(frame, start, boxes[i,2:4], color, thickness)
+            x_min, y_min, x_max, y_max = map(int, boxes[i])
+            frame = cv2.rectangle(frame, (x_min,y_min), (x_max,y_max), color, thickness)
+            # for each landmarks on one face
             for j in range(landmarks.shape[1]):
-                frame = cv2.circle(frame, landmarks[i,j], radius, color, thickness)
-    
-    
+                p_x, p_y = landmarks[i,j]
+                frame = cv2.circle(frame, (p_x,p_y), radius, color, thickness)
     
     
     #####################################################################################
@@ -160,9 +167,7 @@ def display_detection_and_keypoints(query, face_detector, num_images=3):
     image_names = os.listdir(os.path.join(DOWNLOADS_PATH, query))
     # count images as the condition to end the loop
     image_count = 1
-    # save faces in the list
-    box_list = []
-    mark_list = []
+    
     # for images in the directory
     for image_name in image_names:
         if image_count>num_images:
@@ -173,16 +178,12 @@ def display_detection_and_keypoints(query, face_detector, num_images=3):
             image = Image.open(os.path.join(DOWNLOADS_PATH, query, image_name))
             # inference
             boxes, _, landmarks = face_detector.detect(image, landmarks=True)
-            # append faces to the list
-            if boxes is not None:
-                box_list.append(boxes)
-                mark_list.append(landmarks)
             print(image_name, 'analyzed!')
             image = draw_boxes_and_landmarks(image, boxes, landmarks)
             display_image(image)
             
             image_count += 1
-    return box_list, mark_list
+            
     #####################################################################################
     # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
     #####################################################################################
@@ -231,9 +232,14 @@ def video_inference(video_path, face_detector, max_frames=30):
         #####################################################################################
         # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
         #####################################################################################
-
-        raise Exception('utils.display.video_inference() not implemented!') # delete me
-
+        
+        # inference
+        boxes, _, landmarks = face_detector.detect(frame, landmarks=True)
+        # if face detected
+        if boxes is not None:
+            frame = draw_boxes_and_landmarks(frame, boxes, landmarks)        
+        
+        
         #####################################################################################
         # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
         #####################################################################################
@@ -271,7 +277,11 @@ def webcam_inference(face_detector):
             # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
             #####################################################################################
 
-            raise Exception('utils.display.video_inference() not implemented!') # delete me
+            # inference
+            boxes, _, landmarks = face_detector.detect(frame, landmarks=True)
+            # if face detected
+            if boxes is not None:
+                frame = draw_boxes_and_landmarks(frame, boxes, landmarks)    
 
             #####################################################################################
             # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #

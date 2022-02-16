@@ -1,35 +1,73 @@
 # Lab-JetsonNanoSetup-PretrainedDeployment
 
-This lab contains starter code for: Lab-JetsonNanoSetup-PretrainedDeployment. The formal lab assignment is distributed through GitHub Classroom. Populate the Lab-JetsonNanoSetup-PretrainedDeployment GitHub Classroom repo with the code in this repository. 
+Assignment 2, completed assigned files which contains jetson nano setup and pretrained model deployment.
 
-The GitHub Classroom repository will become (after students accept the github classroom link invite) the student version of the lab for this class.
-To complete the Lab-Convolution, students need to update their copy of this repository by putting their solution into the repository.
-
-## Deliverables for Lab-JetsonNanoSetup-PretrainedDeployment
-
-You are expected to complete the TODOs and discussion questions in the following files:
-
+### Files finished
 * Jupyter Notebook `JetsonNanoSetup.ipynb`
 * Jupyter Notebook `PretrainedDeployment.ipynb`
 * Utility file `utils/display.py`
 
-To ensure reception of full credit: 
-* Upload versions of Jupyter Notebooks with appropriate cell outputs saved
-* Clearly indicate your solutions and answers
-* Follow good coding style (meaningful variable names, thorough commenting, use of doc strings, reasonably efficient implementations, etc.)
+### Functions
+```python
+# display faces in the query directory
+display_faces(query, face_detector, num_images=3)
+# display bounding boxes and landmarks of detected faces
+display_detection_and_keypoints(query, face_detector, num_images=3)
+# face inference of video
+video_inference(video_path, face_detector, max_frames=30)
+# face inference of webcam
+webcam_inference(face_detector)
+```
 
-## How to modify this README.md file
-To have the "professional look", the students should enter the description of their repo here.
-For the assignments, the additional info may be minimal, but for paper reviews it should include the organization of the directory, brief description how run code, what is in the code, links to relevant papers, links to relevant githubs, etc...
+### Usage
+```python
+from facenet_pytorch import MTCNN
+# instantiate a MTCNN model (keep_all shows all the detected faces)
+mtcnn = MTCNN(select_largest=False, post_process=False, device=device, keep_all=True)
+# structure of the model
+print(mtcnn)
 
-## INSTRUCTIONS for (re) naming the student's solution repository for assignments with one student:
-* Students need to use the following naming rules for the repository with their solutions: e6692-2022Spring-assign1-UNI 
-(the first part "e6692-2022Spring-Lab-Convolution" will probably be inherited from the assignment, so only UNI needs to be added) 
-* Initially, the system may give the repo a name which ends with a student's Github userid. 
-The student must change that name and replace it with the name requested in the point above (containing their UNI)
-* Good Example: e6691-2021Spring-assign1-zz9999;   Bad example: e6691-2021Spring-assign1-ee6040-2020Spring-assign1-zz9999.
-* This change can be done from the "Settings" tab which is located on the repo page.
+from utils.convolution1D import *
+# use several downloaded images for inferencing and display detected faces
+display_faces("soccer player", mtcnn, 2)
+# use several downloaded images for inferencing and show bounding boxes and landmarks of detected faces
+display_detection_and_keypoints("soccer player", mtcnn, 3)
+# load video and inference the video
+video_path = os.path.join(DATA_PATH, 'video_name.mp4')
+detected_video_path = video_inference(video_path, mtcnn, max_frames=30)
+# open camera and inference the stream from webcam
+webcam_inference(mtcnn)
+```
 
-## INSTRUCTIONS for naming the students' solution repository for assignments with more students, such as the final project. 
-Students need to use a 4-letter groupID): 
-* Template: e6691-2021Spring-Project-GroupID-UNI1-UNI2-UNI3. -> Example: e6691-2021Spring-Project-MEME-zz9999-aa9999-aa0000.
+### Docker management on Jetson nano
+We've already done the docker configuration. Only commonly used commands are listed here.
+```bash
+# mount docker with --rm, the container will be deleted upon exiting
+sudo docker run -it --rm --runtime nvidia --network host nvcr.io/nvidia/l4t-ml:r32.6.1-py3
+# mount the docker with camera connected
+sudo docker run -it --rm --runtime nvidia --network host --device /dev/video0 nvcr.io/nvidia/l4t-ml:r32.6.1-py3
+```
+
+### Organization of the repo
+```bash
+tree ./ >> README.md
+```
+```
+./
+├── JetsonNanoSetup.ipynb
+├── PretrainedDeployment.ipynb
+├── README.md
+├── data
+│   ├── PrincessBride-detected.mp4
+│   └── PrincessBride.mp4
+├── imgs
+│   ├── Screenshot from 2022-02-09 16-31-10.png
+│   ├── Screenshot from 2022-02-09 16-32-54.png
+│   └── Screenshot from 2022-02-09 23-41-48.png
+└── utils
+    ├── display.py
+    ├── install_dependancies.py
+    └── pretrained_deployment.py
+
+3 directories, 11 files
+```
