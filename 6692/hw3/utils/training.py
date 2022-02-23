@@ -48,16 +48,17 @@ def train_classification(model, device, train_dataset, val_dataset, batch_size, 
     # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
     #####################################################################################
 
-#     raise Exception('utils.training.train_classification() not implemented!') # delete me
-
     # clear GPU cache
+    torch.cuda.empty_cache() 
 
     # define training and validation data loaders
+    
 
     # initialize empty lists for storing training and validation loss and accuracy
-
+    train_loss_history = []
+    val_loss_history = []
     # initialize highest validation accuracy value
-
+    
     # iterate through epochs
 
         # initialize training loss and iteration values

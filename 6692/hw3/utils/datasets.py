@@ -15,6 +15,7 @@ import uuid
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
+import random
 
 
 DEFAULT_TRANSFORMS = T.Compose([
@@ -59,6 +60,7 @@ class ClassificationDataset(Dataset):
         self.path = path
         self.classes = class_names
         self.dataset_name = dataset_name
+#         print(self.dataset_name)
         self.transforms = transforms
         self._refresh() # load the images
 
@@ -90,8 +92,13 @@ class ClassificationDataset(Dataset):
         #####################################################################################
         # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
         #####################################################################################
-
-        raise Exception('utils.datasets.ClassificationDataset.__getitem__() not implemented!') # delete me
+        
+        iamge = Image.open(annotation['path'])
+        
+        if not self.transforms:
+            image = DEFAULT_TRANSFORMS(image)
+        else:
+            image = self.transforms(image)
 
         #####################################################################################
         # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
@@ -116,13 +123,52 @@ class ClassificationDataset(Dataset):
         #####################################################################################
         # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
         #####################################################################################
-
-        raise Exception('utils.datasets.ClassificationDataset._refresh() not implemented!') # delete me
+        
+        class_index = 0
+        
+        # go into each directory of classes
+        for class_name in self.classes:
+            # name of directory of that class
+            class_path = os.path.join(self.path, self.dataset_name, class_name)
+            
+            if not os.path.exists(class_path):
+                os.makedirs(class_path)
+            
+            for image_name in os.listdir(class_path):
+                # check if the image ends with png
+                if (image_name.endswith(".png")):
+                    self.annotations.append({
+                        "path": os.path.join(class_path, image_name),
+                        "class_index": class_index,
+                        "class_name": class_name
+                        })
+#                     print(self.annotations[-1]['path'])
+            # move to the next class        
+            class_index += 1
+        
 
         #####################################################################################
         # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
         #####################################################################################
 
+#     def rename(self):
+#         for class_name in self.classes:
+#             # name of directory of that class
+#             class_path = os.path.join(self.path, self.dataset_name, class_name)
+            
+#             if not os.path.exists(class_path):
+#                 os.makedirs(class_path)
+            
+#             for image_name in os.listdir(class_path):
+#                 if (image_name.endswith(".png")):
+#                     image_path = os.path.join(class_path, image_name)
+#                     print(image_path)
+#                     image = cv2.imread(image_path)
+#                     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+#                     cv2.imwrite(image_path, image)
+
+        
+        
 
     def save_image(self, image, class_name):
         """
@@ -161,8 +207,17 @@ class ClassificationDataset(Dataset):
         #####################################################################################
         # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
         #####################################################################################
-
-        raise Exception('utils.datasets.ClassificationDataset.save_image() not implemented!') # delete me
+        
+        class_path = os.path.join(self.path, self.dataset_name, class_name)
+        
+        if not os.path.exists(class_path):
+            os.makedirs(class_path)
+            
+        image_path = os.path.join(class_path, str(uuid.uuid1()))+'.png'
+        
+        plt.imsave(image_path, image, format='png')
+        
+        self._refresh()
 
         #####################################################################################
         # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
@@ -185,7 +240,15 @@ class ClassificationDataset(Dataset):
         # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
         #####################################################################################
 
-        raise Exception('utils.datasets.ClassificationDataset.get_count() not implemented!') # delete me
+        count = 0
+
+        # name of directory of that class
+        class_path = os.path.join(self.path, self.dataset_name, class_name)
+
+        for image_name in os.listdir(class_path):
+            # check if the file ends with png
+            if (image_name.endswith(".png")):
+                count += 1
 
         #####################################################################################
         # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
@@ -208,7 +271,14 @@ class ClassificationDataset(Dataset):
         # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
         #####################################################################################
 
-        raise Exception('utils.datasets.ClassificationDataset.get_random_image() not implemented!') # delete me
+        if not self.__len__():
+            raise Exception('Dataset is empty.')
+        
+        index = random.randint(0,self.__len__())
+        
+        annotation = self.annotations[index]
+        
+        image = Image.open(annotation['path'])
 
         #####################################################################################
         # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #

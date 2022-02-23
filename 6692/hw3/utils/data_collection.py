@@ -72,7 +72,7 @@ def collect_categorical_data(class_names, dataset):
                     print(flush=True)
 
                     if val == 'y': # save image
-                        frame_array = cv2.cvtColor(frame_array, cv2.COLOR_BGR2RGB)
+#                         frame_array = cv2.cvtColor(frame_array, cv2.COLOR_BGR2RGB)
                         dataset.save_image(frame_array, class_name)
 
                     elif val == 'c' or val == 'x':
