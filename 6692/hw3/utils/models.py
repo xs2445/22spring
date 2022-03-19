@@ -45,6 +45,7 @@ class CustomClassifier(nn.Module):
         #####################################################################################
         
         self.model = nn.Sequential(
+<<<<<<< HEAD
             nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, stride=1),
             nn.ReLU(),
 #             nn.Dropout(p=0.4),
@@ -76,6 +77,21 @@ class CustomClassifier(nn.Module):
             nn.ReLU(),
             nn.Linear(in_features=32, out_features=num_classes),
             nn.ReLU()
+=======
+            nn.Conv2d(in_channels=1, out_channels=6, kernel_size=5, stride=1),
+            nn.Tanh(),
+            nn.AvgPool2d(kernel_size=2),
+            nn.Conv2d(in_channels=6, out_channels=16, kernel_size=5, stride=1),
+            nn.Tanh(),
+            nn.AvgPool2d(kernel_size=2),
+            nn.Conv2d(in_channels=16, out_channels=120, kernel_size=5, stride=1),
+            nn.Tanh(),
+            nn.Flatten(),
+            
+            nn.Linear(in_features=120, out_features=84),
+            nn.Tanh(),
+            nn.Linear(in_features=84, out_features=num_classes),
+>>>>>>> 6fe9c41fbf30ffe8cbd0de3d80c4fb35aacd7459
 #             F.softmax()
             
         )
@@ -107,7 +123,11 @@ class CustomClassifier(nn.Module):
         # define forward pass of model using PyTorch functional API
         
         x = self.model(x)
+<<<<<<< HEAD
 #         x = F.softmax(x)
+=======
+        x = F.softmax(x)
+>>>>>>> 6fe9c41fbf30ffe8cbd0de3d80c4fb35aacd7459
 
         #####################################################################################
         # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #

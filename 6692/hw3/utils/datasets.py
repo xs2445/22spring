@@ -93,11 +93,17 @@ class ClassificationDataset(Dataset):
         # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
         #####################################################################################
         
+<<<<<<< HEAD
 #         image = Image.open(annotation['path'])
         image = cv2.imread(annotation['path'])
 #         print(image.shape)
         
         if self.transforms == None:
+=======
+        iamge = Image.open(annotation['path'])
+        
+        if not self.transforms:
+>>>>>>> 6fe9c41fbf30ffe8cbd0de3d80c4fb35aacd7459
             image = DEFAULT_TRANSFORMS(image)
         else:
             image = self.transforms(image)
@@ -166,9 +172,14 @@ class ClassificationDataset(Dataset):
 #                     image_path = os.path.join(class_path, image_name)
 #                     print(image_path)
 #                     image = cv2.imread(image_path)
+<<<<<<< HEAD
 #                     print(image.shape)
 # #                     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 # #                     cv2.imwrite(image_path, image)
+=======
+#                     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+#                     cv2.imwrite(image_path, image)
+>>>>>>> 6fe9c41fbf30ffe8cbd0de3d80c4fb35aacd7459
 
         
         

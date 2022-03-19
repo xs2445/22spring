@@ -52,6 +52,7 @@ def train_classification(model, device, train_dataset, val_dataset, batch_size, 
     torch.cuda.empty_cache() 
 
     # define training and validation data loaders
+<<<<<<< HEAD
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size)
     val_loader = torch.utils.data.DataLoader(val_dataset, batch_size)
     
@@ -60,10 +61,14 @@ def train_classification(model, device, train_dataset, val_dataset, batch_size, 
     n_batch_train = len(train_loader)
     n_sample_val = val_loader.dataset.__len__()
     n_batch_val = len(val_loader)
+=======
+    
+>>>>>>> 6fe9c41fbf30ffe8cbd0de3d80c4fb35aacd7459
 
     # initialize empty lists for storing training and validation loss and accuracy
     train_loss_history = []
     val_loss_history = []
+<<<<<<< HEAD
     train_accuracy_history = []
     val_accuracy_history = []
     
@@ -72,6 +77,9 @@ def train_classification(model, device, train_dataset, val_dataset, batch_size, 
     
     # loss function
     loss_fn = torch.nn.CrossEntropyLoss()
+=======
+    # initialize highest validation accuracy value
+>>>>>>> 6fe9c41fbf30ffe8cbd0de3d80c4fb35aacd7459
     
     # iterate through epochs
     for epoch in range(epochs):
