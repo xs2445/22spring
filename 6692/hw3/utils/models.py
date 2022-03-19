@@ -43,10 +43,43 @@ class CustomClassifier(nn.Module):
         #####################################################################################
         # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
         #####################################################################################
+        
+        self.model = nn.Sequential(
+            nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, stride=1),
+            nn.ReLU(),
+#             nn.Dropout(p=0.4),
+            nn.AvgPool2d(kernel_size=2),
+            
+            nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3, stride=1),
+            nn.ReLU(),
+#             nn.Dropout(p=0.4),
+            nn.AvgPool2d(kernel_size=2),
+            
+            nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=1),
+            nn.ReLU(),
+#             nn.Dropout(p=0.4),
+            nn.AvgPool2d(kernel_size=2),
+            
+            nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1),
+            nn.ReLU(),
+#             nn.Dropout(p=0.4),
+            nn.AvgPool2d(kernel_size=2),
+            
+            nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, stride=1),
+            nn.ReLU(),
+#             nn.Dropout(p=0.4),
+            nn.AvgPool2d(kernel_size=2),
+            
+            nn.Flatten(),
+            
+            nn.Linear(in_features=4608, out_features=32),
+            nn.ReLU(),
+            nn.Linear(in_features=32, out_features=num_classes),
+            nn.ReLU()
+#             F.softmax()
+            
+        )
 
-        raise Exception('utils.models.CustomClassifier.__init__() not implemented!') # delete me
-
-        # define layers here
 
         #####################################################################################
         # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
@@ -69,9 +102,12 @@ class CustomClassifier(nn.Module):
         # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
         #####################################################################################
 
-        raise Exception('utils.models.CustomClassifier.forward() not implemented!') # delete me
+
 
         # define forward pass of model using PyTorch functional API
+        
+        x = self.model(x)
+#         x = F.softmax(x)
 
         #####################################################################################
         # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
@@ -100,9 +136,42 @@ class CustomRegression(nn.Module):
         # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
         #####################################################################################
 
-        raise Exception('utils.models.CustomRegression.__init__() not implemented!') # delete me
-
         # define layers here
+        self.model = nn.Sequential(
+            nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, stride=1),
+            nn.ReLU(),
+#             nn.Dropout(p=0.4),
+            nn.AvgPool2d(kernel_size=2),
+            
+            nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3, stride=1),
+            nn.ReLU(),
+#             nn.Dropout(p=0.4),
+            nn.AvgPool2d(kernel_size=2),
+            
+            nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=1),
+            nn.ReLU(),
+#             nn.Dropout(p=0.4),
+            nn.AvgPool2d(kernel_size=2),
+            
+            nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1),
+            nn.ReLU(),
+#             nn.Dropout(p=0.4),
+            nn.AvgPool2d(kernel_size=2),
+            
+            nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, stride=1),
+            nn.ReLU(),
+#             nn.Dropout(p=0.4),
+            nn.AvgPool2d(kernel_size=2),
+            
+            nn.Flatten(),
+            
+            nn.Linear(in_features=4608, out_features=32),
+            nn.ReLU(),
+            nn.Linear(in_features=32, out_features=num_classes*2),
+            nn.ReLU()
+#             F.softmax()
+            
+        )
 
         #####################################################################################
         # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
@@ -124,9 +193,8 @@ class CustomRegression(nn.Module):
         # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
         #####################################################################################
 
-        raise Exception('utils.models.CustomRegression.forward() not implemented!') # delete me
-
         # define forward pass of model using PyTorch functional API
+        x = self.model(x)
 
         #####################################################################################
         # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #

@@ -10,8 +10,10 @@ import cv2
 import io
 from PIL import Image
 import IPython
+import numpy as np
 
 from .data_collection import DATA_SHAPE
+from .datasets import DEFAULT_TRANSFORMS
 
 FONT = cv2.FONT_HERSHEY_SIMPLEX
 FONT_SCALE = 1
@@ -66,17 +68,25 @@ def live_classification(trained_weights_path, model, device, class_names):
             # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
             #####################################################################################
 
-            raise Exception('utils.live_inference.live_classification() not implemented!') # delete me
-
             # convert frame to tensor
+#             frame = torch.tensor(frame)
+            frame_d = DEFAULT_TRANSFORMS(frame)
 
             # normalize the tensor
+#             frame = frame / 255.
 
             # transfer the frame tensor to the GPU
+            frame_d = frame_d.to(device)
 
             # get model output from GPU -> CPU and convert to array
+            output = model(frame_d.unsqueeze(0))
+#             output = output.detach().numpy()
 
             # get the predicted class and class_name
+            _, pred = torch.max(output.data, 1)
+            class_name = class_names[pred]
+#             output = output.detatch().numpy()
+            
 
             #####################################################################################
             # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
@@ -128,26 +138,36 @@ def live_regression(trained_weights_path, model, device, regression_class_names)
             # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
             #####################################################################################
 
-            raise Exception('utils.live_inference.live_regression() not implemented!') # delete me
-
             # convert frame to tensor
-
+#             frame = torch.tensor(frame)
+            
             # normalize frame
+            frame = DEFAULT_TRANSFORMS(frame)
+#             frame = frame.resize(1,*frame.size)
+            
 
             # transfer frame to GPU
+            frame = frame.to(device)
 
             # transfer model output back to CPU
-
+            output = model(frame.unsqueeze(0))
+            output = output.cpu()
+            
             # get regression points
+            output = output.detach().numpy().astype(np.int32)
+            print(output, output.shape)
 
             # for each regression class
-
+            for i in regression_class_names:
                 # get x and y
-
+                x = output[0,i*2]
+                y = output[0,i*2+1]
                 # orient x and y on the frame
+                x = (x/2+1/2) * DATA_SHAPE[0]
+                y = (x/2+1/2) * DATA_SHAPE[1]
 
                 # draw prediction on the frame
-
+                cv2.circle(img, (x, y), 4, COLOR, 2)
             #####################################################################################
             # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
             #####################################################################################
