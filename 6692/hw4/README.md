@@ -1,13 +1,8 @@
 # Lab-ParallelComputing
 
-This lab contains starter code for: Lab-ParallelComputing. The formal lab assignment is distributed through GitHub Classroom. Populate the Lab-ParallelComputing GitHub Classroom repo with the code in this repository. 
+This lab contains starter code for: Lab-ParallelComputing.
 
-After accepting the invitation link, the GitHub Classroom repository is your official submission of the lab. 
-To complete the Lab-ParallelComputing, solutions must be pushed to the GitHub Classroom assignment repository.
-
-## Deliverables for Lab-ParallelComputing
-
-You are expected to complete the TODOs and discussion questions in the following files:
+### Files finished
 
 * Jupyter Notebook `GPUkernels.ipynb`
 * Jupyter Notebook `KernelProfiling.ipynb`
@@ -15,24 +10,50 @@ You are expected to complete the TODOs and discussion questions in the following
 * Jupyter Notebook `CUDAInference.ipynb`
 * Utility file `utils/context.py`
 * Utility file `utils/models.py`
+* Kernel file  `kernels.cu`
 
-To ensure reception of full credit: 
-* Upload versions of Jupyter Notebooks with appropriate cell outputs saved
-* Clearly indicate your solutions and answers
-* Follow good coding style (meaningful variable names, thorough commenting, use of doc strings, reasonably efficient implementations, etc.)
+### Functions and usage
+```python
+from utils.context import Context, GPUKernels
+# instantiate CUDA functions 
+context = Context(BLOCK_SIZE)
+source_module = context.getSourceModule(kernel_path)
+cuda_functions = GPUKernels(context, source_module)
+# CUDA implementations
+cuda_functions.add(input_array_a, input_array_b)
+cuda_functions.relu(input_array)
+cuda_functions.conv2d(input_array, mask)
+cuda_functions.MaxPool2d(input_array, kernel_size)
+cuda_functions.linear(input_array, weights, bias)
 
-## How to modify this README.md file
-To have the "professional look", the students should enter the description of their repo here.
-For the assignments, the additional info may be minimal, but for paper reviews it should include the organization of the directory, brief description how run code, what is in the code, links to relevant papers, links to relevant githubs, etc...
+from utils.models import CUDAClassifier
+# load trained parameters (note cuda and pytorch model must have the same structure)
+cuda_model = CUDAClassifier(kernel_path)
+cuda_model.load_state_dict(torch.load(state_dict_path))
+# CUDA inferencing
+cuda_x = cuda_model(x)
+cuda_prediction = np.argmax(cuda_x)
+```
 
-## INSTRUCTIONS for (re) naming the student's solution repository for assignments with one student:
-* Students need to use the following naming rules for the repository with their solutions: e6692-2022Spring-assign1-UNI 
-(the first part "e6692-2022Spring-Lab-Convolution" will probably be inherited from the assignment, so only UNI needs to be added) 
-* Initially, the system may give the repo a name which ends with a student's Github userid. 
-The student must change that name and replace it with the name requested in the point above (containing their UNI)
-* Good Example: e6691-2021Spring-assign1-zz9999;   Bad example: e6691-2021Spring-assign1-ee6040-2020Spring-assign1-zz9999.
-* This change can be done from the "Settings" tab which is located on the repo page.
+### Organization of the repo
+```bash
+tree ./ >> README.md
+```
 
-## INSTRUCTIONS for naming the students' solution repository for assignments with more students, such as the final project. 
-Students need to use a 4-letter groupID): 
-* Template: e6691-2021Spring-Project-GroupID-UNI1-UNI2-UNI3. -> Example: e6691-2021Spring-Project-MEME-zz9999-aa9999-aa0000.
+```
+./
+├── CUDAInference.ipynb
+├── GPUkernels.ipynb
+├── KernelProfiling.ipynb
+├── README.md
+├── Train.ipynb
+├── kernels.cu
+└── utils
+    ├── context.py
+    ├── dataset.py
+    ├── models.py
+    ├── plot_execution_times.py
+    └── train.py
+
+1 directory, 11 files
+```
