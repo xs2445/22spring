@@ -94,8 +94,13 @@ class CUDAClassifier(nn.Module):
         #####################################################################################
         # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
         #####################################################################################
-    
-        raise Exception('utils.models.GPUKernels.load_state_dict() not implemented!') # delete me
+        
+        self.state_dict = {}
+        
+        for key, val in state_dict.items():
+            self.state_dict[key] = val.cpu().numpy()
+        
+        
     
         #####################################################################################
         # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
@@ -121,8 +126,26 @@ class CUDAClassifier(nn.Module):
         #####################################################################################
         # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
         #####################################################################################
-    
-        raise Exception('utils.models.GPUKernels.forward() not implemented!') # delete me
+        
+        x = x.reshape(x.shape[:2])
+        x = self.kernels.conv2d(x, self.state_dict["conv1.weight"][0][0])
+        x = self.kernels.relu(x)
+        x = self.kernels.MaxPool2d(x,kernel_size=2)
+        
+        x = self.kernels.conv2d(x, self.state_dict["conv2.weight"][0][0])
+        x = self.kernels.relu(x)
+        x = self.kernels.MaxPool2d(x,2)
+        
+        x = self.kernels.flatten(x)
+        
+        x = self.kernels.linear(x, self.state_dict["fc1.weight"], self.state_dict["fc1.bias"])
+        x = self.kernels.relu(x)
+        
+        x = self.kernels.linear(x, self.state_dict["fc2.weight"], self.state_dict["fc2.bias"])
+        x = self.kernels.relu(x)
+        
+        x = self.kernels.linear(x, self.state_dict["fc3.weight"], self.state_dict["fc3.bias"])
+        
     
         #####################################################################################
         # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
