@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 from .utils import del_folder_contents, parse_config, load_test_config, read_validation_video_names
 from .load_annotations import load_annotation_objects, get_objects_in_frame, get_frame_bboxes
 
+from darknet_utils.utils import plot_boxes_cv2
+
 FRAME_STEP = 6
 
 def make_darknet_dataset(cfg_path, class_groups=None):
@@ -55,7 +57,7 @@ def make_darknet_dataset(cfg_path, class_groups=None):
         lines = obj_data.readlines()
         lines = [line for line in lines if line[0] not in ["#", "\n"]]
         num_classes = int(lines[0].split('=')[1].strip())
-        train_txt_paths = lines[1].split('=')[1].strip() 
+        train_txt_paths = lines[1].split('=')[1].strip()
         val_txt_paths = lines[2].split('=')[1].strip()
         class_names_path = lines[3].split('=')[1].strip()
     
@@ -69,11 +71,16 @@ def make_darknet_dataset(cfg_path, class_groups=None):
         for index, line in enumerate(classes.readlines()):
             class_dict.update({ line.strip() : str(index) })
             
+    # print("class dict:",class_dict)
+    # for k, v in class_dict.items():
+    #     print("***",k,"***",v,"***")
+            
     if class_groups is not None:
         # get index of 'superclass' in class_dict (line number in .names file) for each entry to class_groups
         for superclass in list(class_groups.keys()):
             original_classes = class_groups[superclass]
             for original_class in original_classes:
+                # print(original_class)
                 class_dict.update({ original_class : class_dict[superclass] })
                             
             
@@ -94,6 +101,7 @@ def make_darknet_dataset(cfg_path, class_groups=None):
     val_image_list_file = open(val_txt_paths, 'w')
     
     validation_video_names = read_validation_video_names(val_video_names_path)
+
 
     for video_path in os.listdir(videos_path):
         if '.ts' in video_path:
@@ -140,9 +148,11 @@ def make_darknet_dataset(cfg_path, class_groups=None):
 
                     frame_objects = get_objects_in_frame(annotation_objects, frame_num)
                     frame_bboxes = get_frame_bboxes(frame_objects)
-
+            
                     if video_path in validation_video_names:
                         label_file = open(os.path.join(val_path, str(frames) + '.txt'), 'w')
+                        
+                        
                     else:
                         label_file = open(os.path.join(train_path, str(frames) + '.txt'), 'w')
 
@@ -162,15 +172,31 @@ def make_darknet_dataset(cfg_path, class_groups=None):
                         ###################################################
                         # ---------- YOUR IMPLEMENTATION HERE ----------- #
                         ###################################################
-
-                        raise Exception('darknet_utils.make_dataset.make_darknet_dataset() not implemented!') # delete me
+                        
+                        
+                        # print(coords)
+                        x_center = (coords[0][0] + coords[1][0])//2 / frame_width
+                        y_center = (coords[0][1] + coords[1][1])//2 / frame_height
+                        # print(x_center, y_center)
+                        
+                        width = np.abs(coords[0][0] - coords[1][0]) / frame_width
+                        height = np.abs(coords[0][1] - coords[1][1]) / frame_height
+                        # print(width, height)
+                        
+                        # str_list = [str(x_center)[], str(y_center), str(width), str(height)]
+                        coords_string = "{:6f} {:6f} {:6f} {:6f}\n".format(x_center, y_center, width, height)
+                        # coords_string = ' '.join(str_list) + '\n'
+                        # print(coords_string)
+                        
 
                         ###################################################
                         # ----------- END YOUR IMPLEMENTATION ----------- #
                         ###################################################
                 
                         line += coords_string
-
+                    
+                        # print(line)
+                    
                         label_file.write(line)
 
                     label_file.close()
@@ -210,9 +236,53 @@ def inspect_darknet_dataset(dataset_path, tests=3):
     ###################################################
     # ---------- YOUR IMPLEMENTATION HERE ----------- #
     ###################################################
+    
+    # imgs = []
+    # labels = []
+    
+    count = 0
+    
+    # only take several images
+    while count<tests:
+        
+        # randomly select one file from directory
+        img_path = random.choice(os.listdir(dataset_path))
+        
+        # if it's an image
+        if '.jpg' in img_path:
+            count += 1
+            
+            label_path = os.path.join(dataset_path, img_path[:-4]+'.txt')
+            
+           
+            with open(label_path) as f:
+                line = f.readlines()[0]
 
-    raise Exception('darknet_utils.make_dataset.inspect_darknet_dataset() not implemented!') # delete me
-
+            label = line.split(' ')[0]
+            bbox = line.split(' ')[1:]
+            bbox[-1] = bbox[-1][:-1]
+            
+            for i in range(len(bbox)):
+                bbox[i] = float(bbox[i])
+            
+            # convert the coordinates of bbox
+            x,y,w,h = bbox
+            bbox[0] = x-w/2
+            bbox[1] = y+h/2
+            bbox[2] = x+w/2
+            bbox[3] = y-h/2
+            
+            bbox = [np.array(bbox)]
+                        
+            img = cv2.imread(os.path.join(dataset_path, img_path))
+            # print(img.shape)
+            img = plot_boxes_cv2(img, bbox)
+            plt.figure()
+            plt.imshow(img[:,:,::-1])
+            plt.title(img_path+",  label: "+label)
+            
+        
+            
     ###################################################
     # ----------- END YOUR IMPLEMENTATION ----------- #
     ###################################################

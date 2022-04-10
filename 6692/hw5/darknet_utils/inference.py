@@ -46,15 +46,19 @@ def image_inference(image_path, model, conf_thresh, nms_thresh, class_names=None
     # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
     #####################################################################################
 
-    raise Exception('darknet_utils.inference.image_inference() not implemented!') # delete me
-
     # load image
+    img = cv2.imread(image_path)
+    img = cv2.resize(img, (640,480))
+    # print(img.shape)
     
     # forward pass of model with inference.detect()
-    
-    # plot detections with plot_boxes_cv2()
+    model = model.cuda()
+    boxes = detect(model, img, conf_thresh, nms_thresh)
+        
+    img = plot_boxes_cv2(img, boxes[0])
     
     # display detected image in Jupyter cell
+    plt.imshow(img[:,:,::-1])
 
     #####################################################################################
     # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
@@ -100,8 +104,14 @@ def get_class_names(classes_filename):
     # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
     #####################################################################################
 
-    raise Exception('darknet_utils.inference.get_class_names() not implemented!') # delete me
-
+    with open(classes_filename) as file:
+        for line in file:
+            # read file line by line
+            (key, value) = line.split(':')
+            value = value[3:-3]
+            key = key[1:]
+            class_names[key] = value
+            
     #####################################################################################
     # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
     #####################################################################################
@@ -126,8 +136,27 @@ def measure_throughput(model, input_shape=(1, 3, 512, 512), warmup_iterations=50
     #####################################################################################
     # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
     #####################################################################################
-
-    raise Exception('darknet_utils.inference.measure_throughput() not implemented!') # delete me
+    
+    model.cuda()
+    x = torch.randn(input_shape).cuda()
+    # print(x.shape)
+    
+    for _ in range(warmup_iterations):
+        model(x)
+        
+    start = time.time()
+    
+    for _ in range(iterations):
+        # x = torch.randn(input_shape).cuda()
+        model(x)
+        
+    t = (time.time() - start)
+    # print(t)
+    
+    throughput = iterations / t
+    
+    
+    # raise Exception('darknet_utils.inference.measure_throughput() not implemented!') # delete me
 
     #####################################################################################
     # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
