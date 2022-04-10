@@ -139,13 +139,15 @@ def measure_throughput(model, input_shape=(1, 3, 512, 512), warmup_iterations=50
     
     model.cuda()
     x = torch.randn(input_shape).cuda()
-    # print(x.shape)
+    print(x.shape)
     
+    # warmup
     for _ in range(warmup_iterations):
         model(x)
         
     start = time.time()
     
+    # test
     for _ in range(iterations):
         # x = torch.randn(input_shape).cuda()
         model(x)
@@ -155,9 +157,6 @@ def measure_throughput(model, input_shape=(1, 3, 512, 512), warmup_iterations=50
     
     throughput = iterations / t
     
-    
-    # raise Exception('darknet_utils.inference.measure_throughput() not implemented!') # delete me
-
     #####################################################################################
     # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
     #####################################################################################

@@ -60,7 +60,12 @@ def get_region_boxes(boxes_and_confs):
     boxes_list = []
     confs_list = []
 
+    
+    
     for item in boxes_and_confs:
+        
+        # print(len(item))
+        
         boxes_list.append(item[0])
         confs_list.append(item[1])
 
