@@ -137,9 +137,15 @@ def measure_throughput(model, input_shape=(1, 3, 512, 512), warmup_iterations=50
     # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
     #####################################################################################
     
+    # free deviece memory cache
+    torch.cuda.empty_cache()
+
+    # transfer to device
     model.cuda()
+    
+    # generate an input
     x = torch.randn(input_shape).cuda()
-    print(x.shape)
+    # print(x.shape)
     
     # warmup
     for _ in range(warmup_iterations):
@@ -154,6 +160,8 @@ def measure_throughput(model, input_shape=(1, 3, 512, 512), warmup_iterations=50
         
     t = (time.time() - start)
     # print(t)
+    
+    x.detach()
     
     throughput = iterations / t
     

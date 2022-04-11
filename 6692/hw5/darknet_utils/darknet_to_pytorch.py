@@ -18,7 +18,7 @@ def load_pytorch(cfg_file, weights_file):
 
 def load_darknet_as_pytorch(model_cfg, darknet_weights):
     pytorch_darknet_model = Darknet(model_cfg, inference=True)
-    pytorch_darknet_model.load_weights(darknet_weights)
+    pytorch_darknet_model.load_weights(darknet_weights)    
     return pytorch_darknet_model
 
 def save_pytorch_model(model, path):
