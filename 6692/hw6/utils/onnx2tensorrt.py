@@ -72,7 +72,7 @@ def get_c(layer_configs):
 def load_onnx(model_name):
     """Read the ONNX file."""
     onnx_path = '%s.onnx' % model_name
-    onnx_path = './weights/' + onnx_path
+    onnx_path = '../weights/' + onnx_path
     if not os.path.isfile(onnx_path):
         print('ERROR: file (%s) not found!  You might want to run yolo2onnx.py first to generate it.' % onnx_path)
         return None
@@ -96,8 +96,9 @@ def set_net_batch(network, batch_size):
 
 def build_engine(model_name, do_int8, dla_core, verbose=False):
     """Build a TensorRT engine from ONNX using the older API."""
-    cfg_file_path = './cfg/' + model_name + '.cfg'
+    cfg_file_path = '../cfg/' + model_name + '.cfg'
     parser = DarkNetParser()
+#     print(cfg_file_path)
     layer_configs = parser.parse_cfg_file(cfg_file_path)
     net_c = get_c(layer_configs)
     net_h, net_w = get_h_and_w(layer_configs)
@@ -202,6 +203,7 @@ def main():
     args = parser.parse_args()
     
     trt_model_name = args.config_file.split(".")[-2].split('/')[-1]
+#     print(trt_model_name)
     
     engine = build_engine(
         trt_model_name, args.int8, args.dla_core, args.verbose)

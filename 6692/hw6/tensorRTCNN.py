@@ -17,7 +17,10 @@ OUTPUT_NAME = "prob" # name of the output tensor/buffer
 OUTPUT_SIZE = 10 # number of output classes
 DTYPE = trt.float32 # datatype
 
+# need to first create a logger before create a builder
 TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
+# EXPLICIT_BATCH flag is required in order to import models using the ONNX parser
+# refer to https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#explicit-implicit-batch
 EXPLICIT_BATCH = 1 << (int)(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH)
 
 def generate_serialized_trt_engine(weights):
@@ -56,9 +59,51 @@ def generate_serialized_trt_engine(weights):
     #####################################################################################
     # --------------------------- YOUR IMPLEMENTATION HERE ---------------------------- #
     #####################################################################################
-
-    raise Exception('tensorRTCNN.generate_serialized_trt_engine() not implemented!') # delete me
-
+    
+    input_tensor = network.add_input(name=INPUT_NAME, dtype=DTYPE, shape=INPUT_SHAPE)
+    
+    conv1 = network.add_convolution(input=input_tensor, 
+                                    num_output_maps=20, kernel_shape=(5,5),
+                                    kernel=weights["conv1.weight"],
+                                    bias=weights["conv1.bias"])
+    conv1.stride = (1,1)
+    
+    pool1 = network.add_pooling(input=conv1.get_output(0), 
+                                type=trt.PoolingType.MAX, 
+                                window_size=(2,2))
+    pool1.stride = (2,2)
+    
+    conv2 = network.add_convolution(input=pool1.get_output(0), 
+                                    num_output_maps=50, kernel_shape=(5,5),
+                                    kernel=weights["conv2.weight"],
+                                    bias=weights["conv2.bias"])
+    conv2.stride = (1,1)
+    
+    pool2 = network.add_pooling(input=conv2.get_output(0), 
+                                type=trt.PoolingType.MAX, 
+                                window_size=(2,2))
+    pool2.stride = (2,2)
+    
+    fc1 = network.add_fully_connected(input=pool2.get_output(0), 
+                                      num_outputs=500, 
+                                      kernel=weights["fc1.weight"], 
+                                      bias=weights["fc1.bias"])
+    
+    relu1 = network.add_activation(input=fc1.get_output(0), type=trt.ActivationType.RELU)
+    
+    fc2 = network.add_fully_connected(input=relu1.get_output(0), 
+                                      num_outputs=OUTPUT_SIZE, 
+                                      kernel=weights["fc2.weight"], 
+                                      bias=weights["fc2.bias"])
+    
+    fc2.get_output(0).name = OUTPUT_NAME
+    
+    network.mark_output(fc2.get_output(0))
+    
+#     serialized_engine = builder.build_serialized_network(network=network, config=config)
+    engine = builder.build_engine(network=network, config=config)
+    serialized_engine = engine.serialize()
+    
     #####################################################################################
     # --------------------------- END YOUR IMPLEMENTATION ----------------------------- #
     #####################################################################################

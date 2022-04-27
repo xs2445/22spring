@@ -15,8 +15,9 @@ from yolo2onnx import (is_pan_arch, DarkNetParser, get_category_num,
                           get_h_and_w, get_output_convs, get_anchors)
 
 try:
-#     ctypes.cdll.LoadLibrary('../plugins/libyolo_layer.so')
-    ctypes.cdll.LoadLibrary('./plugins/libyolo_layer.so')
+    ctypes.cdll.LoadLibrary('../plugins/libyolo_layer.so')
+#     ctypes.cdll.LoadLibrary('./plugins/libyolo_layer.so')
+#     ctypes.cdll.LoadLibrary('./libyolo_layer.so')
 
 except OSError as e:
     raise SystemExit('ERROR: failed to load ../plugins/libyolo_layer.so.  '
@@ -62,7 +63,7 @@ def get_plugin_creator(plugin_name, logger):
 
 def add_yolo_plugins(network, model_name, logger):
     """Add yolo plugins into a TensorRT network."""
-    cfg_file_path = './cfg/' + model_name + '.cfg'
+    cfg_file_path = '../cfg/' + model_name + '.cfg'
     parser = DarkNetParser()
     layer_configs = parser.parse_cfg_file(cfg_file_path)
     num_classes = get_category_num(cfg_file_path)

@@ -12,17 +12,17 @@ You are expected to complete the TODOs and discussion questions in the following
 * Jupyter Notebook `TrainPytorchMNIST.ipynb`
 * Jupyter Notebook `TensorRTMNIST.ipynb`
 * Python file `tensorRTCNN.py`
-*Jupyter Notebook `Yolov4-Tiny-TRT.ipynb`
-*Jupyter Notebook `Profiling.ipynb`
+* Jupyter Notebook `Yolov4-Tiny-TRT.ipynb`
+* Jupyter Notebook `Profiling.ipynb`
 
 You are also expected to fully generate the following Python scripts, profiling logs, and detected video files:
 
-*Python script `pytorch_inference.py`
-*Python script `trt_inference.py`
-*Profiling log `profiling_trt_log.txt`
-*Profiling log `profiling_torch_log.txt`
-*mp4 video file `test-lowres-pytorch-detected.mp4`
-*mp4 video file `test-lowres-tensorrt-detected.mp4`
+* Python script `pytorch_inference.py`
+* Python script `trt_inference.py`
+* Profiling log `profiling_trt_log.txt`
+* Profiling log `profiling_torch_log.txt`
+* mp4 video file `test-lowres-pytorch-detected.mp4`
+* mp4 video file `test-lowres-tensorrt-detected.mp4`
 
 To ensure reception of full credit:
 * Upload versions of Jupyter Notebooks with appropriate cell outputs saved
