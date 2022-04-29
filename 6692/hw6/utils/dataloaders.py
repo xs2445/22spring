@@ -27,7 +27,7 @@ def get_train_loader():
 def get_val_loader():
     # load the validation set DataLoader
     return torch.utils.data.DataLoader(
-                datasets.MNIST('/tmp/mnist/data', train=False, transform=TRANSFORM),
+                datasets.MNIST('/tmp/mnist/data', train=False, transform=TRANSFORM, download=True),
                 batch_size=BATCH_SIZE,
                 shuffle=True,
                 num_workers=1,

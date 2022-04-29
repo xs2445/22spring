@@ -1,0 +1,536 @@
+==287== NVPROF is profiling process 287, command: python3 trt_inference.py -t ./engines/yolov4-tiny-person-vehicle.trt
+==287== Profiling application: python3 trt_inference.py -t ./engines/yolov4-tiny-person-vehicle.trt
+==287== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   64.43%  6.35491s      2016  3.1522ms  987.46us  20.348ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+                    9.78%  964.97ms      3192  302.31us  13.750us  6.7326ms  generatedNativePointwise
+                    5.79%  571.08ms       168  3.3993ms  3.0384ms  24.464ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_medium_nn_v1
+                    3.74%  368.88ms       168  2.1957ms  1.7946ms  16.957ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_small_nn_v1
+                    2.83%  279.13ms       336  830.75us  138.91us  13.000ms  void cuInt8::nchwToNchhw2<float>(float const *, __half*, int, int, int, int, int, int, cuInt8::ReducedDivisorParameters)
+                    2.79%  275.65ms       504  546.92us  86.564us  1.9041ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1
+                    2.55%  251.42ms       336  748.28us  407.40us  1.5830ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1
+                    2.54%  250.34ms       179  1.3985ms  2.2910us  37.542ms  [CUDA memcpy HtoD]
+                    2.40%  236.45ms      1554  152.16us  4.2180us  7.3970ms  [CUDA memcpy DtoD]
+                    1.74%  171.24ms       336  509.65us  295.27us  792.56us  void nvinfer1::rt::cuda::poolCHW_PQT<int=2, int=2, int=2, int=2, int=2, int=16, int=128, int=8, int=2, bool=1, nvinfer1::rt::cuda::ITiledPooling::PoolingMode, bool=0>(nvinfer1::rt::cuda::TiledPoolingParams, int)
+                    0.43%  42.110ms       336  125.33us  74.220us  346.31us  trt_maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_interior_nn_v1
+                    0.40%  39.417ms       168  234.62us  190.84us  804.13us  void nvinfer1::rt::cuda::poolCHW_PQT<int=2, int=2, int=2, int=2, int=2, int=32, int=256, int=8, int=2, bool=1, nvinfer1::rt::cuda::ITiledPooling::PoolingMode, bool=0>(nvinfer1::rt::cuda::TiledPoolingParams, int)
+                    0.32%  31.140ms       168  185.35us  148.65us  591.78us  void cuResizeLayer::ResizeNearestGenericKernel<float, int=2, int=128, nvinfer1::ResizeRoundMode>(float*, cuResizeLayer::ResizeNearestGenericKernel<float, int=2, int=128, nvinfer1::ResizeRoundMode> const *, cuResizeLayer::LaunchParams)
+                    0.13%  12.480ms       336  37.142us  18.959us  204.01us  nvinfer1::CalDetection(float const *, float*, int, int, int, int, float const *, int, int, int, float)
+                    0.12%  11.501ms       504  22.820us  6.8230us  125.63us  void cuInt8::nchhw2ToNchw<float>(__half const *, float*, int, int, int, int, int, int, cuInt8::ReducedDivisorParameters)
+                    0.02%  1.9367ms       168  11.528us  10.729us  59.532us  [CUDA memcpy DtoH]
+                    0.00%  44.791us         8  5.5980us  4.4270us  11.823us  [CUDA memset]
+      API calls:   43.51%  197.397s        29  6.80679s  32.136us  194.960s  cudaMalloc
+                   38.60%  175.130s         1  175.130s  175.130s  175.130s  cuCtxDetach
+                    9.09%  41.2539s        16  2.57837s  6.5630us  41.0946s  cudaStreamCreateWithFlags
+                    4.72%  21.4201s        45  476.00ms  3.1770us  16.0683s  cudaFree
+                    1.92%  8.70597s       168  51.821ms  29.532us  104.62ms  cuStreamSynchronize
+                    1.26%  5.72692s        18  318.16ms  13.750us  5.66714s  cudaMemGetInfo
+                    0.16%  735.66ms         2  367.83ms  2.8717ms  732.79ms  cudaHostAlloc
+                    0.14%  629.81ms         1  629.81ms  629.81ms  629.81ms  cuCtxCreate
+                    0.08%  363.58ms       168  2.1642ms  1.7233ms  43.647ms  cuMemcpyHtoDAsync
+                    0.08%  363.02ms      5376  67.526us  37.084us  19.477ms  cudaLaunchKernel
+                    0.05%  249.53ms      3192  78.173us  37.813us  27.862ms  cuLaunchKernel
+                    0.05%  219.95ms        19  11.576ms  1.6770ms  80.162ms  cuModuleUnload
+                    0.04%  162.71ms         2  81.356ms  18.958ms  143.75ms  cuMemFree
+                    0.03%  148.30ms        43  3.4489ms  42.709us  97.821ms  cudaMemcpyAsync
+                    0.03%  128.05ms       193  663.45us  1.1460us  53.311ms  cudaDeviceGetAttribute
+                    0.02%  111.17ms      1512  73.527us  47.709us  2.7730ms  cudaMemcpy2DAsync
+                    0.02%  109.96ms         5  21.991ms  11.615us  85.676ms  cuDeviceTotalMem
+                    0.02%  104.10ms        10  10.410ms  162.82us  52.604ms  cudaMemcpy
+                    0.02%  101.54ms         8  12.693ms  26.979us  101.10ms  cudaMemsetAsync
+                    0.02%  83.804ms         5  16.761ms  3.1250us  43.261ms  cuDeviceGetName
+                    0.02%  81.829ms        14  5.8450ms  5.8330us  30.616ms  cudaDeviceSynchronize
+                    0.01%  66.372ms        19  3.4932ms  3.4162ms  3.8629ms  cuModuleLoadData
+                    0.01%  66.334ms       153  433.56us  2.5000us  37.514ms  cudaEventCreateWithFlags
+                    0.01%  64.714ms         4  16.178ms  23.385us  28.533ms  cudaStreamSynchronize
+                    0.01%  57.814ms      5219  11.077us     782ns  35.427ms  cudaGetLastError
+                    0.01%  42.337ms        15  2.8225ms  1.9790us  24.848ms  cudaGetDevice
+                    0.01%  25.152ms         2  12.576ms  4.0620us  25.148ms  cudaDeviceGetStreamPriorityRange
+                    0.00%  22.038ms         2  11.019ms  4.4018ms  17.636ms  cuMemHostAlloc
+                    0.00%  17.820ms       153  116.47us  2.0310us  16.398ms  cudaEventDestroy
+                    0.00%  16.638ms         2  8.3191ms  82.397us  16.556ms  cuMemFreeHost
+                    0.00%  16.406ms       474  34.611us     520ns  15.573ms  cuDeviceGetAttribute
+                    0.00%  16.386ms         1  16.386ms  16.386ms  16.386ms  cuStreamDestroy
+                    0.00%  15.892ms        26  611.23us  5.5730us  15.325ms  cudaStreamDestroy
+                    0.00%  15.581ms         2  7.7905ms  325.26us  15.256ms  cudaFreeHost
+                    0.00%  13.705ms       168  81.575us  57.449us  304.74us  cuMemcpyDtoHAsync
+                    0.00%  5.1776ms         2  2.5888ms  46.303us  5.1313ms  cuMemAlloc
+                    0.00%  3.0325ms       168  18.050us  11.042us  900.38us  cudaEventRecord
+                    0.00%  560.42us         8  70.052us  29.167us  161.51us  cudaGetDeviceProperties
+                    0.00%  276.72us         5  55.344us  9.8960us  110.63us  cuInit
+                    0.00%  203.75us         2  101.88us  78.179us  125.57us  cudaStreamCreate
+                    0.00%  152.92us         5  30.584us  5.7810us  80.574us  cuDriverGetVersion
+                    0.00%  132.56us         2  66.277us  9.0110us  123.54us  cudaHostGetDevicePointer
+                    0.00%  131.67us         8  16.458us  6.1980us  45.157us  cudaStreamCreateWithPriority
+                    0.00%  42.345us         6  7.0570us     782ns  31.251us  cudaGetDeviceCount
+                    0.00%  40.571us        19  2.1350us  1.7700us  2.7080us  cuModuleGetFunction
+                    0.00%  30.157us         1  30.157us  30.157us  30.157us  cuStreamCreate
+                    0.00%  29.011us         7  4.1440us  2.5520us  7.3440us  cuDeviceGetCount
+                    0.00%  12.918us         7  1.8450us  1.3540us  3.5940us  cuDeviceGet
+                    0.00%  9.2180us         5  1.8430us     625ns  3.8540us  cudaRuntimeGetVersion
+                    0.00%  6.9800us         1  6.9800us  6.9800us  6.9800us  cuCtxPopCurrent
+                    0.00%  5.0000us         5  1.0000us     833ns  1.0940us  cuDeviceGetUuid
+                    0.00%  2.8120us         3     937ns     833ns     990ns  cudaDriverGetVersion
+                    0.00%  2.0320us         1  2.0320us  2.0320us  2.0320us  cuCtxPushCurrent
+                    0.00%  1.9270us         1  1.9270us  1.9270us  1.9270us  cuCtxGetDevice
+
+==287== NVTX result:
+==287==   Thread "<unnamed>" (id = 2375917584)
+==287==     Domain "TensorRT"
+==287==       Range "(Unnamed Layer* 76) [PluginV2IOExt]"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  47.986ms       168  285.63us  65.677us  33.001ms  (Unnamed Layer* 76) [PluginV2IOExt]
+ GPU activities:  100.00%  3.3296ms       168  19.818us  18.959us  65.469us  nvinfer1::CalDetection(float const *, float*, int, int, int, int, float const *, int, int, int, float)
+      API calls:  100.00%  29.704ms       168  176.81us  50.990us  18.001ms  cudaLaunchKernel
+
+==287==       Range "(Unnamed Layer* 76) [PluginV2IOExt]_output_0 copy"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  14.325ms       168  85.265us  65.157us  350.73us  (Unnamed Layer* 76) [PluginV2IOExt]_output_0 copy
+ GPU activities:  100.00%  803.04us       168  4.7790us  4.2180us  14.740us  [CUDA memcpy DtoD]
+      API calls:  100.00%  12.398ms       168  73.798us  56.563us  290.32us  cudaMemcpy2DAsync
+
+==287==       Range "(Unnamed Layer* 77) [PluginV2IOExt]"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  10.689ms       168  63.622us  46.667us  233.55us  (Unnamed Layer* 77) [PluginV2IOExt]
+ GPU activities:  100.00%  9.1504ms       168  54.466us  50.781us  204.01us  nvinfer1::CalDetection(float const *, float*, int, int, int, int, float const *, int, int, int, float)
+      API calls:  100.00%  9.2304ms       168  54.943us  40.157us  209.27us  cudaLaunchKernel
+
+==287==       Range "(Unnamed Layer* 77) [PluginV2IOExt]_output_0 copy"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  13.376ms       168  79.616us  55.887us  954.23us  (Unnamed Layer* 77) [PluginV2IOExt]_output_0 copy
+ GPU activities:  100.00%  1.9764ms       168  11.764us  10.312us  48.751us  [CUDA memcpy DtoD]
+      API calls:  100.00%  10.691ms       168  63.637us  47.709us  255.42us  cudaMemcpy2DAsync
+
+==287==       Range "001_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  36.928ms       168  219.81us  84.845us  20.501ms  001_convolutional
+ GPU activities:  100.00%  368.88ms       168  2.1957ms  1.7946ms  16.957ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_small_nn_v1
+      API calls:  100.00%  12.370ms       168  73.633us  56.720us  1.3162ms  cudaLaunchKernel
+
+==287==       Range "001_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  41.107ms       168  244.68us  56.303us  30.492ms  001_convolutional_lrelu
+ GPU activities:  100.00%  211.82ms       168  1.2608ms  1.0758ms  6.7326ms  generatedNativePointwise
+      API calls:  100.00%  8.6976ms       168  51.771us  45.417us  143.18us  cuLaunchKernel
+
+==287==       Range "002_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  12.066ms       168  71.823us  61.719us  204.27us  002_convolutional
+ GPU activities:  100.00%  571.08ms       168  3.3993ms  3.0384ms  24.464ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_medium_nn_v1
+      API calls:  100.00%  9.1849ms       168  54.672us  46.042us  156.46us  cudaLaunchKernel
+
+==287==       Range "002_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  41.326ms       168  245.99us  47.813us  32.407ms  002_convolutional_lrelu
+ GPU activities:  100.00%  105.99ms       168  630.90us  524.96us  4.2127ms  generatedNativePointwise
+      API calls:  100.00%  35.368ms       168  210.53us  40.105us  27.862ms  cuLaunchKernel
+
+==287==       Range "003_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  11.385ms       168  67.765us  53.855us  1.2847ms  003_convolutional
+ GPU activities:  100.00%  721.47ms       168  4.2945ms  3.7462ms  17.370ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+      API calls:  100.00%  8.7703ms       168  52.204us  43.282us  746.89us  cudaLaunchKernel
+
+==287==       Range "003_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  12.098ms       168  72.012us  47.032us  3.3580ms  003_convolutional_lrelu
+ GPU activities:  100.00%  102.22ms       168  608.44us  526.88us  852.56us  generatedNativePointwise
+      API calls:  100.00%  10.672ms       168  63.524us  40.001us  3.3136ms  cuLaunchKernel
+
+==287==       Range "003_convolutional_lrelu copy"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  13.502ms       168  80.366us  63.230us  340.11us  003_convolutional_lrelu copy
+ GPU activities:  100.00%  59.371ms       168  353.40us  308.08us  469.49us  [CUDA memcpy DtoD]
+      API calls:  100.00%  11.268ms       168  67.069us  51.667us  281.46us  cudaMemcpy2DAsync
+
+==287==       Range "004_route_100"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  18.180ms       168  108.21us  88.855us  1.1183ms  004_route_100
+ GPU activities:  100.00%  32.530ms       168  193.63us  150.68us  243.60us  [CUDA memcpy DtoD]
+      API calls:  100.00%  15.555ms       168  92.587us  75.730us  1.1019ms  cudaMemcpy2DAsync
+
+==287==       Range "005_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  12.633ms       168  75.193us  51.354us  1.1452ms  005_convolutional
+ GPU activities:  100.00%  211.64ms       168  1.2598ms  1.0866ms  2.0659ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+      API calls:  100.00%  9.8636ms       168  58.712us  41.563us  1.1246ms  cudaLaunchKernel
+
+==287==       Range "005_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  14.287ms       168  85.042us  47.293us  4.6283ms  005_convolutional_lrelu
+ GPU activities:  100.00%  54.793ms       168  326.15us  281.62us  421.00us  generatedNativePointwise
+      API calls:  100.00%  11.249ms       168  66.956us  39.063us  3.1435ms  cuLaunchKernel
+
+==287==       Range "006_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  15.196ms       168  90.454us  48.022us  982.04us  006_convolutional
+ GPU activities:  100.00%  210.77ms       168  1.2546ms  1.1165ms  2.0686ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+      API calls:  100.00%  13.189ms       168  78.506us  39.063us  964.13us  cudaLaunchKernel
+
+==287==       Range "006_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  13.520ms       168  80.475us  46.042us  2.0785ms  006_convolutional_lrelu
+ GPU activities:  100.00%  54.605ms       168  325.03us  279.07us  423.39us  generatedNativePointwise
+      API calls:  100.00%  11.612ms       168  69.117us  38.699us  1.7577ms  cuLaunchKernel
+
+==287==       Range "008_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  13.496ms       168  80.333us  59.792us  1.0103ms  008_convolutional
+ GPU activities:  100.00%  174.25ms       168  1.0372ms  910.79us  1.5830ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1
+      API calls:  100.00%  10.033ms       168  59.719us  44.115us  794.65us  cudaLaunchKernel
+
+==287==       Range "008_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  11.418ms       168  67.965us  46.407us  1.5866ms  008_convolutional_lrelu
+ GPU activities:  100.00%  108.39ms       168  645.21us  575.63us  933.71us  generatedNativePointwise
+      API calls:  100.00%  9.9048ms       168  58.957us  39.167us  1.5457ms  cuLaunchKernel
+
+==287==       Range "010_maxpool"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  63.633ms       168  378.77us  65.730us  50.023ms  010_maxpool
+ GPU activities:  100.00%  108.80ms       168  647.61us  533.19us  792.56us  void nvinfer1::rt::cuda::poolCHW_PQT<int=2, int=2, int=2, int=2, int=2, int=16, int=128, int=8, int=2, bool=1, nvinfer1::rt::cuda::ITiledPooling::PoolingMode, bool=0>(nvinfer1::rt::cuda::TiledPoolingParams, int)
+      API calls:  100.00%  29.455ms       168  175.33us  48.490us  19.477ms  cudaLaunchKernel
+
+==287==       Range "011_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  11.571ms       168  68.875us  49.375us  714.44us  011_convolutional
+ GPU activities:  100.00%  757.45ms       168  4.5087ms  3.6884ms  6.8718ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+      API calls:  100.00%  9.4101ms       168  56.012us  40.261us  644.85us  cudaLaunchKernel
+
+==287==       Range "011_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  25.459ms       168  151.54us  46.563us  15.339ms  011_convolutional_lrelu
+ GPU activities:  100.00%  53.652ms       168  319.35us  267.24us  989.54us  generatedNativePointwise
+      API calls:  100.00%  23.919ms       168  142.38us  39.219us  15.299ms  cuLaunchKernel
+
+==287==       Range "011_convolutional_lrelu copy"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  16.034ms       168  95.441us  60.314us  2.7835ms  011_convolutional_lrelu copy
+ GPU activities:  100.00%  30.997ms       168  184.51us  147.35us  483.24us  [CUDA memcpy DtoD]
+      API calls:  100.00%  13.941ms       168  82.979us  50.261us  2.7730ms  cudaMemcpy2DAsync
+
+==287==       Range "012_route_101"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  13.721ms       168  81.670us  62.136us  765.48us  012_route_101
+ GPU activities:  100.00%  20.863ms       168  124.18us  85.887us  535.69us  [CUDA memcpy DtoD]
+      API calls:  100.00%  11.452ms       168  68.166us  52.136us  684.23us  cudaMemcpy2DAsync
+
+==287==       Range "013_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  10.932ms       168  65.070us  50.209us  269.43us  013_convolutional
+ GPU activities:  100.00%  186.79ms       168  1.1118ms  996.84us  2.5407ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+      API calls:  100.00%  8.8805ms       168  52.859us  40.105us  224.12us  cudaLaunchKernel
+
+==287==       Range "013_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  13.240ms       168  78.807us  46.668us  2.9281ms  013_convolutional_lrelu
+ GPU activities:  100.00%  31.640ms       168  188.34us  144.33us  537.87us  generatedNativePointwise
+      API calls:  100.00%  11.614ms       168  69.133us  39.115us  2.8840ms  cuLaunchKernel
+
+==287==       Range "014_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  12.140ms       168  72.260us  47.761us  691.83us  014_convolutional
+ GPU activities:  100.00%  186.27ms       168  1.1087ms  987.46us  2.3950ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+      API calls:  100.00%  10.036ms       168  59.738us  38.491us  636.31us  cudaLaunchKernel
+
+==287==       Range "014_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  11.746ms       168  69.918us  46.146us  1.4303ms  014_convolutional_lrelu
+ GPU activities:  100.00%  31.012ms       168  184.59us  139.79us  238.18us  generatedNativePointwise
+      API calls:  100.00%  10.084ms       168  60.022us  38.803us  1.4027ms  cuLaunchKernel
+
+==287==       Range "016_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  14.331ms       168  85.305us  58.126us  1.3047ms  016_convolutional
+ GPU activities:  100.00%  132.03ms       168  785.92us  710.43us  1.7017ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1
+      API calls:  100.00%  11.003ms       168  65.495us  44.219us  1.0434ms  cudaLaunchKernel
+
+==287==       Range "016_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  11.574ms       168  68.890us  46.980us  1.2908ms  016_convolutional_lrelu
+ GPU activities:  100.00%  57.491ms       168  342.21us  291.52us  1.1346ms  generatedNativePointwise
+      API calls:  100.00%  9.8643ms       168  58.716us  39.532us  1.2557ms  cuLaunchKernel
+
+==287==       Range "018_maxpool"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  11.363ms       168  67.638us  53.646us  192.40us  018_maxpool
+ GPU activities:  100.00%  62.445ms       168  371.70us  295.27us  766.21us  void nvinfer1::rt::cuda::poolCHW_PQT<int=2, int=2, int=2, int=2, int=2, int=16, int=128, int=8, int=2, bool=1, nvinfer1::rt::cuda::ITiledPooling::PoolingMode, bool=0>(nvinfer1::rt::cuda::TiledPoolingParams, int)
+      API calls:  100.00%  8.9028ms       168  52.993us  42.240us  150.37us  cudaLaunchKernel
+
+==287==       Range "019_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  10.784ms       168  64.191us  48.490us  203.70us  019_convolutional
+ GPU activities:  100.00%  862.89ms       168  5.1362ms  4.0828ms  10.269ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+      API calls:  100.00%  8.7048ms       168  51.814us  39.324us  143.70us  cudaLaunchKernel
+
+==287==       Range "019_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  14.447ms       168  85.996us  45.469us  4.3019ms  019_convolutional_lrelu
+ GPU activities:  100.00%  27.777ms       168  165.34us  130.37us  361.15us  generatedNativePointwise
+      API calls:  100.00%  12.855ms       168  76.519us  37.917us  4.2709ms  cuLaunchKernel
+
+==287==       Range "019_convolutional_lrelu copy"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  12.990ms       168  77.319us  58.335us  572.61us  019_convolutional_lrelu copy
+ GPU activities:  100.00%  19.481ms       168  115.96us  84.115us  561.78us  [CUDA memcpy DtoD]
+      API calls:  100.00%  10.871ms       168  64.709us  48.438us  463.70us  cudaMemcpy2DAsync
+
+==287==       Range "020_route_102"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  14.168ms       168  84.334us  57.501us  1.7283ms  020_route_102
+ GPU activities:  100.00%  9.4890ms       168  56.482us  42.500us  122.71us  [CUDA memcpy DtoD]
+      API calls:  100.00%  12.151ms       168  72.326us  48.126us  1.7178ms  cudaMemcpy2DAsync
+
+==287==       Range "021_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  10.926ms       168  65.036us  49.167us  241.57us  021_convolutional
+ GPU activities:  100.00%  221.09ms       168  1.3160ms  1.0926ms  3.4962ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+      API calls:  100.00%  8.9724ms       168  53.407us  39.740us  196.31us  cudaLaunchKernel
+
+==287==       Range "021_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  18.959ms       168  112.85us  46.823us  8.5792ms  021_convolutional_lrelu
+ GPU activities:  100.00%  15.984ms       168  95.142us  55.470us  252.97us  generatedNativePointwise
+      API calls:  100.00%  17.270ms       168  102.80us  38.907us  8.5633ms  cuLaunchKernel
+
+==287==       Range "022_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  10.940ms       168  65.120us  47.813us  289.12us  022_convolutional
+ GPU activities:  100.00%  218.94ms       168  1.3032ms  1.0857ms  3.8240ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+      API calls:  100.00%  8.9209ms       168  53.100us  38.386us  249.64us  cudaLaunchKernel
+
+==287==       Range "022_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  11.749ms       168  69.934us  46.199us  1.7510ms  022_convolutional_lrelu
+ GPU activities:  100.00%  15.763ms       168  93.827us  60.834us  270.52us  generatedNativePointwise
+      API calls:  100.00%  10.265ms       168  61.103us  39.063us  1.7166ms  cuLaunchKernel
+
+==287==       Range "024_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  12.523ms       168  74.538us  53.959us  503.39us  024_convolutional
+ GPU activities:  100.00%  122.71ms       168  730.43us  602.51us  1.9041ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1
+      API calls:  100.00%  9.3658ms       168  55.748us  41.043us  193.39us  cudaLaunchKernel
+
+==287==       Range "024_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  14.005ms       168  83.362us  46.459us  4.3396ms  024_convolutional_lrelu
+ GPU activities:  100.00%  30.842ms       168  183.58us  137.40us  549.59us  generatedNativePointwise
+      API calls:  100.00%  12.364ms       168  73.598us  38.803us  4.3007ms  cuLaunchKernel
+
+==287==       Range "024_convolutional_lrelu copy"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  14.880ms       168  88.570us  59.793us  1.1452ms  024_convolutional_lrelu copy
+ GPU activities:  100.00%  19.284ms       168  114.79us  83.595us  512.04us  [CUDA memcpy DtoD]
+      API calls:  100.00%  12.847ms       168  76.471us  50.574us  1.1333ms  cudaMemcpy2DAsync
+
+==287==       Range "026_maxpool"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  14.705ms       168  87.528us  58.491us  2.1694ms  026_maxpool
+ GPU activities:  100.00%  39.417ms       168  234.62us  190.84us  804.13us  void nvinfer1::rt::cuda::poolCHW_PQT<int=2, int=2, int=2, int=2, int=2, int=32, int=256, int=8, int=2, bool=1, nvinfer1::rt::cuda::ITiledPooling::PoolingMode, bool=0>(nvinfer1::rt::cuda::TiledPoolingParams, int)
+      API calls:  100.00%  10.936ms       168  65.097us  45.418us  1.3141ms  cudaLaunchKernel
+
+==287==       Range "027_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  14.634ms       168  87.107us  48.021us  4.0784ms  027_convolutional
+ GPU activities:  100.00%  1.02712s       168  6.1138ms  5.2755ms  16.324ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+      API calls:  100.00%  12.710ms       168  75.651us  38.958us  4.0618ms  cudaLaunchKernel
+
+==287==       Range "027_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  15.429ms       168  91.838us  46.720us  4.0029ms  027_convolutional_lrelu
+ GPU activities:  100.00%  13.684ms       168  81.452us  47.969us  234.12us  generatedNativePointwise
+      API calls:  100.00%  13.799ms       168  82.135us  39.167us  3.9866ms  cuLaunchKernel
+
+==287==       Range "028_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  11.528ms       168  68.617us  53.230us  322.97us  028_convolutional
+ GPU activities:  100.00%  77.169ms       168  459.34us  407.40us  1.1057ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1
+      API calls:  100.00%  8.7794ms       168  52.258us  40.104us  248.39us  cudaLaunchKernel
+
+==287==       Range "028_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  12.001ms       168  71.435us  45.522us  1.9737ms  028_convolutional_lrelu
+ GPU activities:  100.00%  5.4741ms       168  32.584us  24.793us  111.36us  generatedNativePointwise
+      API calls:  100.00%  10.455ms       168  62.229us  37.813us  1.9381ms  cuLaunchKernel
+
+==287==       Range "029_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  10.375ms       168  61.756us  46.563us  309.48us  029_convolutional
+ GPU activities:  100.00%  516.79ms       168  3.0761ms  2.5800ms  9.2108ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+      API calls:  100.00%  8.4631ms       168  50.375us  37.084us  215.58us  cudaLaunchKernel
+
+==287==       Range "029_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  9.9142ms       168  59.013us  45.991us  430.37us  029_convolutional_lrelu
+ GPU activities:  100.00%  13.508ms       168  80.406us  48.125us  223.91us  generatedNativePointwise
+      API calls:  100.00%  8.2571ms       168  49.149us  38.594us  398.13us  cuLaunchKernel
+
+==287==       Range "030_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  13.362ms       168  79.533us  57.240us  1.0181ms  030_convolutional
+ GPU activities:  100.00%  16.960ms       168  100.95us  74.220us  346.31us  trt_maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_interior_nn_v1
+      API calls:  100.00%  10.440ms       168  62.141us  43.595us  853.60us  cudaLaunchKernel
+
+==287==       Range "033_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  11.732ms       168  69.835us  52.865us  396.52us  033_convolutional
+ GPU activities:  100.00%  20.903ms       168  124.42us  86.564us  321.72us  trt_maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1
+      API calls:  100.00%  9.2919ms       168  55.309us  41.198us  328.91us  cudaLaunchKernel
+
+==287==       Range "033_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  12.654ms       168  75.322us  46.927us  2.7768ms  033_convolutional_lrelu
+ GPU activities:  100.00%  2.5339ms       168  15.082us  13.750us  50.991us  generatedNativePointwise
+      API calls:  100.00%  10.972ms       168  65.308us  39.167us  2.7380ms  cuLaunchKernel
+
+==287==       Range "034_upsample"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  12.768ms       168  76.001us  55.938us  1.2550ms  034_upsample
+ GPU activities:  100.00%  31.140ms       168  185.35us  148.65us  591.78us  void cuResizeLayer::ResizeNearestGenericKernel<float, int=2, int=128, nvinfer1::ResizeRoundMode>(float*, cuResizeLayer::ResizeNearestGenericKernel<float, int=2, int=128, nvinfer1::ResizeRoundMode> const *, cuResizeLayer::LaunchParams)
+      API calls:  100.00%  10.108ms       168  60.165us  45.677us  828.19us  cudaLaunchKernel
+
+==287==       Range "034_upsample copy"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  11.755ms       168  69.967us  53.750us  381.20us  034_upsample copy
+ GPU activities:  100.00%  31.765ms       168  189.08us  138.91us  552.40us  void cuInt8::nchwToNchhw2<float>(float const *, __half*, int, int, int, int, int, int, cuInt8::ReducedDivisorParameters)
+      API calls:  100.00%  8.9458ms       168  53.248us  41.042us  305.42us  cudaLaunchKernel
+
+==287==       Range "036_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  11.668ms       168  69.453us  49.480us  216.83us  036_convolutional
+ GPU activities:  100.00%  1.23369s       168  7.3434ms  6.7952ms  20.348ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+      API calls:  100.00%  9.2553ms       168  55.091us  39.688us  175.94us  cudaLaunchKernel
+
+==287==       Range "036_convolutional_lrelu"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  12.126ms       168  72.176us  46.823us  1.4155ms  036_convolutional_lrelu
+ GPU activities:  100.00%  27.787ms       168  165.40us  122.87us  362.35us  generatedNativePointwise
+      API calls:  100.00%  10.306ms       168  61.342us  39.219us  1.3985ms  cuLaunchKernel
+
+==287==       Range "037_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  12.490ms       168  74.345us  53.542us  300.89us  037_convolutional
+ GPU activities:  100.00%  25.150ms       168  149.70us  109.90us  344.54us  trt_maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_interior_nn_v1
+      API calls:  100.00%  9.6382ms       168  57.370us  40.834us  222.76us  cudaLaunchKernel
+
+==287==       Range "ExecutionContext::enqueue"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  1.36372s       168  8.1174ms  3.7496ms  599.68ms  ExecutionContext::enqueue
+ GPU activities:   66.27%  6.35491s      2016  3.1522ms  987.46us  20.348ms  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+                   10.06%  964.97ms      3192  302.31us  13.750us  6.7326ms  generatedNativePointwise
+                    5.96%  571.08ms       168  3.3993ms  3.0384ms  24.464ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_medium_nn_v1
+                    3.85%  368.88ms       168  2.1957ms  1.7946ms  16.957ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_small_nn_v1
+                    2.91%  279.13ms       336  830.75us  138.91us  13.000ms  void cuInt8::nchwToNchhw2<float>(float const *, __half*, int, int, int, int, int, int, cuInt8::ReducedDivisorParameters)
+                    2.87%  275.65ms       504  546.92us  86.564us  1.9041ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1
+                    2.62%  251.42ms       336  748.28us  407.40us  1.5830ms  trt_maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1
+                    2.25%  215.60ms      1533  140.64us  4.2180us  7.3503ms  [CUDA memcpy DtoD]
+                    1.79%  171.24ms       336  509.65us  295.27us  792.56us  void nvinfer1::rt::cuda::poolCHW_PQT<int=2, int=2, int=2, int=2, int=2, int=16, int=128, int=8, int=2, bool=1, nvinfer1::rt::cuda::ITiledPooling::PoolingMode, bool=0>(nvinfer1::rt::cuda::TiledPoolingParams, int)
+                    0.44%  42.110ms       336  125.33us  74.220us  346.31us  trt_maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_interior_nn_v1
+                    0.41%  39.417ms       168  234.62us  190.84us  804.13us  void nvinfer1::rt::cuda::poolCHW_PQT<int=2, int=2, int=2, int=2, int=2, int=32, int=256, int=8, int=2, bool=1, nvinfer1::rt::cuda::ITiledPooling::PoolingMode, bool=0>(nvinfer1::rt::cuda::TiledPoolingParams, int)
+                    0.32%  31.140ms       168  185.35us  148.65us  591.78us  void cuResizeLayer::ResizeNearestGenericKernel<float, int=2, int=128, nvinfer1::ResizeRoundMode>(float*, cuResizeLayer::ResizeNearestGenericKernel<float, int=2, int=128, nvinfer1::ResizeRoundMode> const *, cuResizeLayer::LaunchParams)
+                    0.13%  12.480ms       336  37.142us  18.959us  204.01us  nvinfer1::CalDetection(float const *, float*, int, int, int, int, float const *, int, int, int, float)
+                    0.12%  11.501ms       504  22.820us  6.8230us  125.63us  void cuInt8::nchhw2ToNchw<float>(__half const *, float*, int, int, int, int, int, int, cuInt8::ReducedDivisorParameters)
+      API calls:   49.43%  363.02ms      5376  67.526us  37.084us  19.477ms  cudaLaunchKernel
+                   33.98%  249.53ms      3192  78.173us  37.813us  27.862ms  cuLaunchKernel
+                   15.14%  111.17ms      1512  73.527us  47.709us  2.7730ms  cudaMemcpy2DAsync
+                    1.45%  10.652ms        21  507.26us  46.667us  7.8067ms  cudaMemcpyAsync
+
+==287==       Range "Reformatting CopyNode for Input Tensor 0 to (Unnamed Layer* 76) [PluginV2IOExt]"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  12.227ms       168  72.782us  52.084us  182.71us  Reformatting CopyNode for Input Tensor 0 to (Unnamed Layer* 76) [PluginV2IOExt]
+ GPU activities:  100.00%  1.2746ms       168  7.5860us  6.8230us  25.729us  void cuInt8::nchhw2ToNchw<float>(__half const *, float*, int, int, int, int, int, int, cuInt8::ReducedDivisorParameters)
+      API calls:  100.00%  9.2718ms       168  55.189us  39.948us  157.87us  cudaLaunchKernel
+
+==287==       Range "Reformatting CopyNode for Input Tensor 0 to (Unnamed Layer* 77) [PluginV2IOExt]"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  13.013ms       168  77.456us  52.084us  1.1001ms  Reformatting CopyNode for Input Tensor 0 to (Unnamed Layer* 77) [PluginV2IOExt]
+ GPU activities:  100.00%  3.7517ms       168  22.331us  20.781us  82.969us  void cuInt8::nchhw2ToNchw<float>(__half const *, float*, int, int, int, int, int, int, cuInt8::ReducedDivisorParameters)
+      API calls:  100.00%  10.019ms       168  59.638us  39.532us  1.0810ms  cudaLaunchKernel
+
+==287==       Range "Reformatting CopyNode for Input Tensor 0 to 001_convolutional"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  75.793ms       168  451.15us  131.72us  51.618ms  Reformatting CopyNode for Input Tensor 0 to 001_convolutional
+ GPU activities:  100.00%  247.37ms       168  1.4724ms  1.2017ms  13.000ms  void cuInt8::nchwToNchhw2<float>(float const *, __half*, int, int, int, int, int, int, cuInt8::ReducedDivisorParameters)
+      API calls:  100.00%  19.116ms       168  113.79us  98.023us  1.3095ms  cudaLaunchKernel
+
+==287==       Range "Reformatting CopyNode for Input Tensor 0 to 034_upsample"
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+          Range:  100.00%  13.936ms       168  82.951us  58.698us  793.08us  Reformatting CopyNode for Input Tensor 0 to 034_upsample
+ GPU activities:  100.00%  6.4751ms       168  38.542us  31.823us  125.63us  void cuInt8::nchhw2ToNchw<float>(__half const *, float*, int, int, int, int, int, int, cuInt8::ReducedDivisorParameters)
+      API calls:  100.00%  10.048ms       168  59.810us  44.219us  615.11us  cudaLaunchKernel
+
+
+==287== Dependency Analysis:
+Critical path(%)  Critical path  Waiting time  Name
+          37.41%    197.397023s           0ns  cudaMalloc
+          33.19%    175.129550s           0ns  cuCtxDetach
+          14.01%     73.946650s           0ns  <Other>
+           7.82%     41.253897s           0ns  cudaStreamCreateWithFlags_v5000
+           4.06%     21.420142s           0ns  cudaFree
+           1.19%      6.273914s           0ns  trt_maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1
+           1.09%      5.726921s           0ns  cudaMemGetInfo
+           0.18%   947.699151ms           0ns  generatedNativePointwise
+           0.14%   735.663478ms           0ns  cudaHostAlloc
+           0.12%   629.810239ms           0ns  cuCtxCreate_v2
+           0.10%   546.616213ms           0ns  trt_maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_medium_nn_v1
+           0.07%   353.556303ms           0ns  cuMemcpyHtoDAsync_v2
+           0.07%   351.921048ms           0ns  trt_maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_small_nn_v1
+           0.05%   271.721623ms           0ns  trt_maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1
+           0.05%   265.587979ms           0ns  void cuInt8::nchwToNchhw2<float>(float const *, __half*, int, int, int, int, int, int, cuInt8::ReducedDivisorParameters)
+           0.05%   248.744681ms           0ns  trt_maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1
+           0.04%   219.950187ms           0ns  cuModuleUnload
+           0.04%   212.963703ms           0ns  [CUDA memcpy DtoD]
+           0.03%   169.713382ms           0ns  void nvinfer1::rt::cuda::poolCHW_PQT<int=2, int=2, int=2, int=2, int=2, int=16, int=128, int=8, int=2, bool=1, nvinfer1::rt::cuda::ITiledPooling::PoolingMode, bool=0>(nvinfer1::rt::cuda::TiledPoolingParams, int)
+           0.03%   162.711438ms           0ns  cuMemFree_v2
+           0.03%   146.033022ms           0ns  cudaMemcpyAsync
+           0.02%   128.046642ms           0ns  cudaDeviceGetAttribute_v5000
+           0.02%   109.957033ms           0ns  cuDeviceTotalMem_v2
+           0.02%   104.097056ms           0ns  cudaMemcpy
+           0.02%   101.543012ms           0ns  cudaMemsetAsync
+           0.02%    83.803521ms           0ns  cuDeviceGetName
+           0.02%    81.829424ms           0ns  cudaDeviceSynchronize
+           0.01%    77.369630ms           0ns  cuLaunchKernel
+           0.01%    66.371609ms           0ns  cuModuleLoadData
+           0.01%    66.334335ms           0ns  cudaEventCreateWithFlags
+           0.01%    51.428519ms           0ns  cudaLaunchKernel_v7000
+           0.01%    49.472670ms           0ns  cudaGetLastError
+           0.01%    48.155303ms   16.082453ms  cudaStreamSynchronize
+           0.01%    42.337155ms           0ns  cudaGetDevice
+           0.01%    41.515612ms           0ns  trt_maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_interior_nn_v1
+           0.01%    38.868901ms           0ns  void nvinfer1::rt::cuda::poolCHW_PQT<int=2, int=2, int=2, int=2, int=2, int=32, int=256, int=8, int=2, bool=1, nvinfer1::rt::cuda::ITiledPooling::PoolingMode, bool=0>(nvinfer1::rt::cuda::TiledPoolingParams, int)
+           0.01%    30.547763ms           0ns  void cuResizeLayer::ResizeNearestGenericKernel<float, int=2, int=128, nvinfer1::ResizeRoundMode>(float*, cuResizeLayer::ResizeNearestGenericKernel<float, int=2, int=128, nvinfer1::ResizeRoundMode> const *, cuResizeLayer::LaunchParams)
+           0.00%    25.152246ms           0ns  cudaDeviceGetStreamPriorityRange_v5050
+           0.00%    22.038041ms           0ns  cuMemHostAlloc
+           0.00%    17.820429ms           0ns  cudaEventDestroy
+           0.00%    16.638285ms           0ns  cuMemFreeHost
+           0.00%    16.405949ms           0ns  cuDeviceGetAttribute
+           0.00%    16.385781ms           0ns  cuStreamDestroy_v2
+           0.00%    15.892077ms           0ns  cudaStreamDestroy_v5050
+           0.00%    15.580926ms           0ns  cudaFreeHost
+           0.00%    12.210529ms           0ns  nvinfer1::CalDetection(float const *, float*, int, int, int, int, float const *, int, int, int, float)
+           0.00%    11.267072ms           0ns  void cuInt8::nchhw2ToNchw<float>(__half const *, float*, int, int, int, int, int, int, cuInt8::ReducedDivisorParameters)
+           0.00%     5.177567ms           0ns  cuMemAlloc_v2
+           0.00%     4.214588ms           0ns  [CUDA memcpy HtoD]
+           0.00%     3.009090ms           0ns  cudaEventRecord
+           0.00%     2.770088ms           0ns  cudaMemcpy2DAsync
+           0.00%     1.907264ms           0ns  [CUDA memcpy DtoH]
+           0.00%   560.423000us           0ns  cudaGetDeviceProperties
+           0.00%   276.723000us           0ns  cuInit
+           0.00%   203.753000us           0ns  cudaStreamCreate
+           0.00%   152.920000us           0ns  cuDriverGetVersion
+           0.00%   132.555000us           0ns  cudaHostGetDevicePointer
+           0.00%   131.669000us           0ns  cudaStreamCreateWithPriority_v5050
+           0.00%    85.574000us           0ns  cuMemcpyDtoHAsync_v2
+           0.00%    42.345000us           0ns  cudaGetDeviceCount
+           0.00%    40.571000us           0ns  cuModuleGetFunction
+           0.00%    30.157000us           0ns  cuStreamCreate
+           0.00%    29.532000us     8.653162s  cuStreamSynchronize
+           0.00%    29.011000us           0ns  cuDeviceGetCount
+           0.00%    12.918000us           0ns  cuDeviceGet
+           0.00%     9.218000us           0ns  cudaRuntimeGetVersion
+           0.00%     6.980000us           0ns  cuCtxPopCurrent_v2
+           0.00%     5.000000us           0ns  cuDeviceGetUuid
+           0.00%     2.812000us           0ns  cudaDriverGetVersion
+           0.00%     2.032000us           0ns  cuCtxPushCurrent_v2
+           0.00%     1.927000us           0ns  cuCtxGetDevice
+           0.00%            0ns           0ns  [CUDA memset]

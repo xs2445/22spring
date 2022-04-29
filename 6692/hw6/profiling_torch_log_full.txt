@@ -1,0 +1,116 @@
+==261== NVPROF is profiling process 261, command: python3 pytorch_inference.py -w ./weights/yolov4-tiny-person-vehicle_best.weights -c ./cfg/yolov4-tiny-person-vehicle.cfg
+==261== Profiling application: python3 pytorch_inference.py -w ./weights/yolov4-tiny-person-vehicle_best.weights -c ./cfg/yolov4-tiny-person-vehicle.cfg
+==261== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   58.21%  13.1128s      2016  6.5044ms  1.9801ms  45.953ms  maxwell_scudnn_winograd_128x128_ldg1_ldg4_mobile_relu_tile148t_nt_v0
+                    8.40%  1.89291s       504  3.7558ms  1.5071ms  46.617ms  maxwell_scudnn_128x64_relu_medium_nn_v1
+                    6.41%  1.44334s      4704  306.83us  3.0730us  23.525ms  void at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrayBatchedCopy<float, unsigned int, int=4, int=128, int=1>(float*, at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrInputTensorMetadata<at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrayBatchedCopy<float, unsigned int, int=4, int=128, int=1>, unsigned int, int=128, int=1>, at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::TensorSizeStride<at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrInputTensorMetadata, unsigned int=4>, int, at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrInputTensorMetadata)
+                    6.00%  1.35270s      3192  423.78us  25.730us  6.2499ms  void cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1>(float, cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1>, cudnnTensorStruct, float const *, float, cudnnTensorStruct*, float, cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1> const *, cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1> const , cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1> const , cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1> const , cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1>)
+                    5.19%  1.16968s      2016  580.20us  10.260us  6.4855ms  void cudnn::winograd::generateWinogradTilesKernel<int=1, float, float>(cudnn::winograd::GenerateWinogradTilesParams<float, float>)
+                    4.58%  1.03064s      3192  322.88us  9.7920us  5.6264ms  _ZN2at6native29vectorized_elementwise_kernelILi4EZZZNS0_80_GLOBAL__N__56_tmpxft_00007fff_00000000_8_Activation_compute_72_cpp1_ii_150aa41217leaky_relu_kernelERNS_18TensorIteratorBaseERKN3c106ScalarEENKUlvE_clEvENKUlvE2_clEvEUlfE_NS_6detail5ArrayIPcLi2EEEEEviT0_T1_
+                    4.01%  902.58ms       336  2.6863ms  1.8812ms  23.358ms  maxwell_scudnn_128x32_relu_small_nn_v1
+                    2.83%  637.95ms       504  1.2658ms  495.63us  9.0429ms  void at::native::_GLOBAL__N__62_tmpxft_00000a0e_00000000_8_DilatedMaxPool2d_compute_72_cpp1_ii_6258b574::max_pool_forward_nchw<float, float>(int, float const *, int, int, int, int, int, int, int, int, int, int, int, int, int, int, at::native::_GLOBAL__N__62_tmpxft_00000a0e_00000000_8_DilatedMaxPool2d_compute_72_cpp1_ii_6258b574::max_pool_forward_nchw<float, float>*, long*)
+                    1.62%  366.01ms       672  544.66us  137.09us  3.1177ms  void precomputed_convolve_sgemm<float, int=1024, int=5, int=5, int=4, int=3, int=3, int=1, bool=0>(int, int, int, float const *, int, float*, float const *, kernel_conv_params, __int64, int, float, float, int, float const *, float const *, int*)
+                    1.25%  281.84ms       672  419.41us  10.729us  11.025ms  _ZN2at6native27unrolled_elementwise_kernelIZZZNS0_21copy_device_to_deviceERNS_14TensorIteratorEbENKUlvE0_clEvENKUlvE6_clEvEUlfE_NS_6detail5ArrayIPcLi2EEE16OffsetCalculatorILi1EjESC_NS0_6memory15LoadWithoutCastENSD_16StoreWithoutCastEEEviT_T0_T1_T2_T3_T4_
+                    1.14%  257.15ms      2304  111.61us     312ns  21.637ms  [CUDA memcpy HtoD]
+                    0.15%  32.811ms       840  39.060us  3.6450us  1.0522ms  void cask_cudnn::computeOffsetsKernel<bool=0, bool=0>(cask_cudnn::ComputeOffsetsParams)
+                    0.04%  9.6616ms       672  14.377us  9.4790us  104.38us  void cudnn::cnn::kern_precompute_indices<bool=0>(int*, int, int, int, int, int, int)
+                    0.03%  7.2268ms       336  21.508us  11.145us  89.844us  void at::native::unrolled_elementwise_kernel<at::native::AddFunctor<float>, at::detail::Array<char*, int=3>, OffsetCalculator<int=2, unsigned int>, OffsetCalculator<int=1, unsigned int>, at::native::memory::LoadWithoutCast, at::native::memory::StoreWithoutCast>(int, float, at::native::AddFunctor<float>, char*, int=3, at::detail::Array<char*, int=3>, int=2)
+                    0.03%  6.1658ms      3696  1.6680us  1.1450us  24.012us  void at::native::vectorized_elementwise_kernel<int=4, at::native::MulScalarFunctor<float, float>, at::detail::Array<char*, int=2>>(int, float, float)
+                    0.02%  5.6260ms      3360  1.6740us  1.1450us  22.708us  void at::native::vectorized_elementwise_kernel<int=4, at::native::AddFunctor<float>, at::detail::Array<char*, int=3>>(int, float, at::native::AddFunctor<float>)
+                    0.02%  5.3465ms       504  10.608us  5.9890us  72.605us  void at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrayBatchedCopy<float, unsigned int, int=3, int=128, int=1>(float*, at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrInputTensorMetadata<at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrayBatchedCopy<float, unsigned int, int=3, int=128, int=1>, unsigned int, int=128, int=1>, at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::TensorSizeStride<at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrInputTensorMetadata, unsigned int=4>, int, at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrInputTensorMetadata)
+                    0.02%  4.0104ms      1008  3.9780us  2.0310us  38.438us  _ZN2at6native29vectorized_elementwise_kernelILi4EZZZNS0_19sigmoid_kernel_cudaERNS_18TensorIteratorBaseEENKUlvE_clEvENKUlvE2_clEvEUlfE_NS_6detail5ArrayIPcLi2EEEEEviT0_T1_
+                    0.02%  3.5788ms       336  10.651us  9.4790us  63.855us  void at::native::unrolled_elementwise_kernel<at::native::MulFunctor<float>, at::detail::Array<char*, int=3>, OffsetCalculator<int=2, unsigned int>, OffsetCalculator<int=1, unsigned int>, at::native::memory::LoadWithoutCast, at::native::memory::StoreWithoutCast>(int, float, at::native::MulFunctor<float>, char*, int=3, at::detail::Array<char*, int=3>, int=2)
+                    0.01%  1.8740ms       336  5.5770us  3.6980us  27.397us  [CUDA memcpy DtoH]
+                    0.01%  1.7241ms       336  5.1310us  4.5830us  31.460us  _ZN2at6native29vectorized_elementwise_kernelILi4EZZZNS0_15exp_kernel_cudaERNS_18TensorIteratorBaseEENKUlvE_clEvENKUlvE2_clEvEUlfE_NS_6detail5ArrayIPcLi2EEEEEviT0_T1_
+                    0.00%  886.85us       336  2.6390us  2.0830us  23.699us  void at::native::vectorized_elementwise_kernel<int=4, at::native::BUnaryFunctor<at::native::AddFunctor<float>>, at::detail::Array<char*, int=2>>(int, float, at::native::AddFunctor<float>)
+                    0.00%  25.312us         4  6.3280us  4.4270us  12.031us  [CUDA memset]
+      API calls:   50.80%  223.928s        18  12.4404s  24.428us  222.896s  cudaMalloc
+                   18.32%  80.7722s     29232  2.7631ms  40.938us  73.2625s  cudaLaunchKernel
+                   14.26%  62.8676s         8  7.85845s  6.8750us  62.8675s  cudaStreamCreateWithFlags
+                   12.84%  56.5898s       157  360.44ms  16.198us  12.9834s  cuModuleUnload
+                    2.89%  12.7295s      2638  4.8254ms  7.6570us  85.278ms  cudaStreamSynchronize
+                    0.30%  1.32846s      2638  503.58us  41.720us  270.61ms  cudaMemcpyAsync
+                    0.26%  1.12847s    224742  5.0210us  1.1970us  11.315ms  cudaGetDevice
+                    0.18%  792.47ms         4  198.12ms  5.5210us  792.41ms  cudaStreamCreateWithPriority
+                    0.09%  405.27ms         1  405.27ms  405.27ms  405.27ms  cudaHostAlloc
+                    0.04%  161.79ms      6720  24.075us  5.2080us  25.624ms  cudaEventRecord
+                    0.01%  47.231ms     22354  2.1120us     572ns  1.5549ms  cudaGetLastError
+                    0.00%  19.277ms         2  9.6387ms  19.427us  19.258ms  cuInit
+                    0.00%  16.035ms       285  56.264us     520ns  15.370ms  cuDeviceGetAttribute
+                    0.00%  7.6854ms         2  3.8427ms  271.77us  7.4136ms  cudaMemcpy
+                    0.00%  6.7943ms         2  3.3971ms  189.43us  6.6049ms  cuDevicePrimaryCtxRelease
+                    0.00%  5.2528ms         3  1.7509ms  1.6150us  5.2434ms  cuDeviceGetName
+                    0.00%  4.5246ms         3  1.5082ms  8.3330us  4.4923ms  cuDeviceTotalMem
+                    0.00%  305.16us         4  76.290us  25.469us  155.05us  cudaMemsetAsync
+                    0.00%  197.50us        28  7.0530us  3.3330us  47.656us  cudaEventCreateWithFlags
+                    0.00%  157.60us        40  3.9400us  1.8230us  22.344us  cudaDeviceGetAttribute
+                    0.00%  99.481us         2  49.740us  46.563us  52.918us  cudaGetDeviceProperties
+                    0.00%  62.449us         5  12.489us  5.4690us  20.156us  cudaFree
+                    0.00%  46.563us         2  23.281us  8.8550us  37.708us  cuDriverGetVersion
+                    0.00%  46.146us         3  15.382us  1.4580us  42.761us  cudaGetDeviceCount
+                    0.00%  40.209us         1  40.209us  40.209us  40.209us  cudaDeviceGetStreamPriorityRange
+                    0.00%  25.313us         1  25.313us  25.313us  25.313us  cudaHostGetDevicePointer
+                    0.00%  23.750us         4  5.9370us  2.1870us  11.667us  cuDeviceGetCount
+                    0.00%  13.334us         2  6.6670us  4.0630us  9.2710us  cudaSetDevice
+                    0.00%  10.832us         4  2.7080us  1.1450us  5.7810us  cuDeviceGet
+                    0.00%  6.4590us         3  2.1530us  1.1460us  3.9070us  cuDeviceGetUuid
+                    0.00%  1.1450us         1  1.1450us  1.1450us  1.1450us  cudaDriverGetVersion
+
+==261== Dependency Analysis:
+Critical path(%)  Critical path  Waiting time  Name
+          41.29%    223.927519s           0ns  cudaMalloc
+          17.94%     97.284251s           0ns  <Other>
+          14.51%     78.691248s           0ns  cudaLaunchKernel_v7000
+          11.59%     62.867639s           0ns  cudaStreamCreateWithFlags_v5000
+          10.43%     56.589771s           0ns  cuModuleUnload
+           2.19%     11.884091s           0ns  maxwell_scudnn_winograd_128x128_ldg1_ldg4_mobile_relu_tile148t_nt_v0
+           0.33%      1.776917s           0ns  maxwell_scudnn_128x64_relu_medium_nn_v1
+           0.25%      1.329997s           0ns  void at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrayBatchedCopy<float, unsigned int, int=4, int=128, int=1>(float*, at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrInputTensorMetadata<at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrayBatchedCopy<float, unsigned int, int=4, int=128, int=1>, unsigned int, int=128, int=1>, at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::TensorSizeStride<at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrInputTensorMetadata, unsigned int=4>, int, at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrInputTensorMetadata)
+           0.24%      1.295581s           0ns  void cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1>(float, cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1>, cudnnTensorStruct, float const *, float, cudnnTensorStruct*, float, cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1> const *, cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1> const , cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1> const , cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1> const , cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, bool=1, int=1>)
+           0.20%      1.081045s           0ns  void cudnn::winograd::generateWinogradTilesKernel<int=1, float, float>(cudnn::winograd::GenerateWinogradTilesParams<float, float>)
+           0.18%   989.970974ms           0ns  _ZN2at6native29vectorized_elementwise_kernelILi4EZZZNS0_80_GLOBAL__N__56_tmpxft_00007fff_00000000_8_Activation_compute_72_cpp1_ii_150aa41217leaky_relu_kernelERNS_18TensorIteratorBaseERKN3c106ScalarEENKUlvE_clEvENKUlvE2_clEvEUlfE_NS_6detail5ArrayIPcLi2EEEEEviT0_T1_
+           0.16%   851.910071ms           0ns  maxwell_scudnn_128x32_relu_small_nn_v1
+           0.15%   792.473310ms           0ns  cudaStreamCreateWithPriority_v5050
+           0.12%   645.788588ms   53.231000us  cudaMemcpyAsync
+           0.11%   622.868927ms           0ns  void at::native::_GLOBAL__N__62_tmpxft_00000a0e_00000000_8_DilatedMaxPool2d_compute_72_cpp1_ii_6258b574::max_pool_forward_nchw<float, float>(int, float const *, int, int, int, int, int, int, int, int, int, int, int, int, int, int, at::native::_GLOBAL__N__62_tmpxft_00000a0e_00000000_8_DilatedMaxPool2d_compute_72_cpp1_ii_6258b574::max_pool_forward_nchw<float, float>*, long*)
+           0.09%   492.123631ms           0ns  cudaGetDevice
+           0.07%   405.274626ms           0ns  cudaHostAlloc
+           0.05%   276.682324ms           0ns  void precomputed_convolve_sgemm<float, int=1024, int=5, int=5, int=4, int=3, int=3, int=1, bool=0>(int, int, int, float const *, int, float*, float const *, kernel_conv_params, __int64, int, float, float, int, float const *, float const *, int*)
+           0.04%   233.262182ms           0ns  _ZN2at6native27unrolled_elementwise_kernelIZZZNS0_21copy_device_to_deviceERNS_14TensorIteratorEbENKUlvE0_clEvENKUlvE6_clEvEUlfE_NS_6detail5ArrayIPcLi2EEE16OffsetCalculatorILi1EjESC_NS0_6memory15LoadWithoutCastENSD_16StoreWithoutCastEEEviT_T0_T1_T2_T3_T4_
+           0.02%    85.247918ms           0ns  cudaEventRecord
+           0.01%    48.755587ms    12.524525s  cudaStreamSynchronize
+           0.01%    29.781553ms           0ns  void cask_cudnn::computeOffsetsKernel<bool=0, bool=0>(cask_cudnn::ComputeOffsetsParams)
+           0.00%    21.901418ms           0ns  cudaGetLastError
+           0.00%    19.277313ms           0ns  cuInit
+           0.00%    18.320507ms           0ns  [CUDA memcpy HtoD]
+           0.00%    16.035451ms           0ns  cuDeviceGetAttribute
+           0.00%     7.685405ms           0ns  cudaMemcpy
+           0.00%     7.071633ms           0ns  void cudnn::cnn::kern_precompute_indices<bool=0>(int*, int, int, int, int, int, int)
+           0.00%     6.794292ms           0ns  cuDevicePrimaryCtxRelease
+           0.00%     5.252772ms           0ns  cuDeviceGetName
+           0.00%     4.524637ms           0ns  cuDeviceTotalMem_v2
+           0.00%     2.407700ms           0ns  void at::native::unrolled_elementwise_kernel<at::native::AddFunctor<float>, at::detail::Array<char*, int=3>, OffsetCalculator<int=2, unsigned int>, OffsetCalculator<int=1, unsigned int>, at::native::memory::LoadWithoutCast, at::native::memory::StoreWithoutCast>(int, float, at::native::AddFunctor<float>, char*, int=3, at::detail::Array<char*, int=3>, int=2)
+           0.00%   442.765000us           0ns  _ZN2at6native29vectorized_elementwise_kernelILi4EZZZNS0_19sigmoid_kernel_cudaERNS_18TensorIteratorBaseEENKUlvE_clEvENKUlvE2_clEvEUlfE_NS_6detail5ArrayIPcLi2EEEEEviT0_T1_
+           0.00%   305.160000us           0ns  cudaMemsetAsync
+           0.00%   208.701000us           0ns  void at::native::vectorized_elementwise_kernel<int=4, at::native::MulScalarFunctor<float, float>, at::detail::Array<char*, int=2>>(int, float, float)
+           0.00%   197.500000us           0ns  cudaEventCreateWithFlags
+           0.00%   184.738000us           0ns  _ZN2at6native29vectorized_elementwise_kernelILi4EZZZNS0_15exp_kernel_cudaERNS_18TensorIteratorBaseEENKUlvE_clEvENKUlvE2_clEvEUlfE_NS_6detail5ArrayIPcLi2EEEEEviT0_T1_
+           0.00%   157.604000us           0ns  cudaDeviceGetAttribute_v5000
+           0.00%   157.339000us           0ns  void at::native::vectorized_elementwise_kernel<int=4, at::native::AddFunctor<float>, at::detail::Array<char*, int=3>>(int, float, at::native::AddFunctor<float>)
+           0.00%    99.481000us           0ns  cudaGetDeviceProperties
+           0.00%    98.029000us           0ns  void at::native::vectorized_elementwise_kernel<int=4, at::native::BUnaryFunctor<at::native::AddFunctor<float>>, at::detail::Array<char*, int=2>>(int, float, at::native::AddFunctor<float>)
+           0.00%    62.449000us           0ns  cudaFree
+           0.00%    53.231000us           0ns  [CUDA memcpy DtoH]
+           0.00%    46.563000us           0ns  cuDriverGetVersion
+           0.00%    46.146000us           0ns  cudaGetDeviceCount
+           0.00%    40.209000us           0ns  cudaDeviceGetStreamPriorityRange_v5050
+           0.00%    25.313000us           0ns  cudaHostGetDevicePointer
+           0.00%    23.750000us           0ns  cuDeviceGetCount
+           0.00%    13.334000us           0ns  cudaSetDevice
+           0.00%    10.832000us           0ns  cuDeviceGet
+           0.00%     6.459000us           0ns  cuDeviceGetUuid
+           0.00%     1.145000us           0ns  cudaDriverGetVersion
+           0.00%            0ns           0ns  void at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrayBatchedCopy<float, unsigned int, int=3, int=128, int=1>(float*, at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrInputTensorMetadata<at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrayBatchedCopy<float, unsigned int, int=3, int=128, int=1>, unsigned int, int=128, int=1>, at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::TensorSizeStride<at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrInputTensorMetadata, unsigned int=4>, int, at::native::_GLOBAL__N__51_tmpxft_00001970_00000000_8_Shape_compute_72_cpp1_ii_cedd8df2::CatArrInputTensorMetadata)
+           0.00%            0ns           0ns  void at::native::unrolled_elementwise_kernel<at::native::MulFunctor<float>, at::detail::Array<char*, int=3>, OffsetCalculator<int=2, unsigned int>, OffsetCalculator<int=1, unsigned int>, at::native::memory::LoadWithoutCast, at::native::memory::StoreWithoutCast>(int, float, at::native::MulFunctor<float>, char*, int=3, at::detail::Array<char*, int=3>, int=2)
+           0.00%            0ns           0ns  [CUDA memset]

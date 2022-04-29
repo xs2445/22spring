@@ -146,3 +146,15 @@ def draw_bboxes(img, boxes, confs):
         txt_loc = (max(x_min+2, 0), max(y_min+2, 0))
 
     return img
+
+def draw_torch_bboxes(img, boxes):
+    """
+    Draw detected bounding boxes on the original image.
+    """
+    for bb in boxes:
+        x_min, y_min, x_max, y_max = bb[0], bb[1], bb[2], bb[3]
+        color = (0, 255, 0)
+        cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color, 4)
+        txt_loc = (max(x_min+2, 0), max(y_min+2, 0))
+
+    return img
